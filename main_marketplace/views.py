@@ -35,6 +35,15 @@ def product_list(request):
     context['s_products'] = s_products
     return render(request, 'product_list.html', context)
 
-@register.filter(name='get_item')
-def get_item(dictionary, key):
-    return dictionary.get(key)
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    is_fav = False
+    fav = False
+    # try:
+    #     if request.user.is_authenticated :
+    #         fav = FavoriteProduct.objects.get(user=request.user, product=product)
+    # except FavoriteProduct.DoesNotExist:
+    #     fav = False
+    # if fav:
+    #     is_fav = True
+    return render(request, 'product_detail.html', {'product': product,'categories': categories, 'is_fav':is_fav})

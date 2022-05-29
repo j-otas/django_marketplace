@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Meto - {{ product.title }}{% endblock %}
+{% block content %}
+
+    <div class="header_controls glavnaya">
+        <a href="{%url 'main_marketplace:product_list' %}">Главная</a>
+    </div>
+    <div class="product_title">
+        <h3>{{ product.title }}</h3>
+        <div class="favorite_block">
+             <a href="#">
+                <div class="fav_button">
+                        <div class="far fa-star" style="padding-right: 5px; " aria-hidden="true">
+                        </div>
+                        <div>В избранное</div>
+                </div>
+             </a>
+            <p>{{ product.published_date }}</p>
+        </div>
+
+    </div>
+    <div class="product_desription_block">
+        {% if product.image %}
+            <div class="description_image_block product_block_image_block" style="
+                    background-image: '{{ product.image.url }}' !important;
+                    backdrop-filter: blur(5px);
+                    ">
+        {% else %}
+            <div class="description_image_block product_block_image_block">
+        {% endif %}
+            <div class="description_image ">
+                 {% if product.image %}
+                     <img src ="{{ product.image.url }}">
+                 {% else %}
+                     <img src ="{% static 'img/no_image_product.jpg' %}">
+                 {% endif %}
+            </div>
+        </div>
+
+        <div class="description_short_block">
+            <div class="description_short_properties">
+                <div><h5>Подробнее</h5></div>
+                <div style="border-bottom: 1px #f7f7f7 solid; ">Категория: {{ product.category }}</div>
+                <div style="border-bottom: 1px #f7f7f7 solid; ">Город: {{ product.city }}</div>
+            </div>
+        </div>
+        <div class="description_contact_card_block">
+            <div class="contact_card">
+                <div class="contact_card_user">
+                    <a href="#">
+                        <div class="avatar_and_name">
+                            <div class="contact_card_user_avatar_block">
+                                <img src="">
+                            </div>
+                            <div class="contact_card_username">
+                                {{ product.author.first_name }}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <a class="no_decoration" href="#">
+                    <div class="contact_card_write_button_block">
+                        <p>Написать продавцу</p>
+                    </div>
+                </a>
+                <div class="contact_card_phone_block">
+                            <p>{{ product.author.cellphone }}</p>
+                    </div>
+                <div class="contact_card_cost">{{ product.cost }} ₽</div>
+            </div>
+
+        </div>
+        </div>
+    <div class="product_description_main_block">
+        <div class="desc_block">
+            <h3>Описание</h3>
+            <div class="description_text">
+                <p>{{ product.description }}</p>
+            </div>
+        </div>
+        <div class="adsress_block">
+            <h3>Адрес</h3>
+            <div class="description_text">
+                <p>{{ product.address }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

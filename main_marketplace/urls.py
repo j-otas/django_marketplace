@@ -5,7 +5,7 @@ app_name = "main_marketplace"
 
 urlpatterns = [
     path('', views.product_list, name='product_list'),
-    # path('product/<int:pk>/', views.product_detail, name='product_detail'),
+    path('product/<int:product_id>/', views.product_detail, name='product_detail'),
     # path('delete/<int:product_id>/', views.delete_product, name='delete_product'),
     # path('product/new/', views.NewProductView.as_view(), name='product_new'),
     # path('product/<int:pk>/edit', views.product_edit, name='product_edit'),
