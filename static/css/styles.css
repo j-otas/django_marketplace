@@ -312,6 +312,7 @@ body{
 	text-decoration: black;
     font-size: 22px;
 }
+
 .contact_card_write_button_block{
 	height: 40px;
 	width: 100%;
@@ -329,8 +330,45 @@ body{
 .contact_card_write_button_block:hover{
 	text-decoration: none;
 	background-color: #7fcb23;
-
 }
+.contact_card_write_button_block_edit{
+	height: 40px;
+	width: 100%;
+	margin-top:10px;
+	background-color: #e9bd23;
+	color: white;
+	text-align: center;
+}
+.contact_card_write_button_block_edit p{
+	position: relative;
+   top: 50%;
+   transform: translate(0, -50%);
+	margin-bottom: 0px;
+}
+.contact_card_write_button_block_edit:hover{
+	text-decoration: none;
+	background-color: #e0ae00;
+}
+
+.contact_card_write_button_block_delete{
+	height: 40px;
+	width: 100%;
+	margin-top:10px;
+	background-color: #da634e;
+	color: white;
+	text-align: center;
+}
+.contact_card_write_button_block_delete p{
+	position: relative;
+   top: 50%;
+   transform: translate(0, -50%);
+	margin-bottom: 0px;
+}
+.contact_card_write_button_block_delete:hover{
+	text-decoration: none;
+	background-color: #cf442c;
+}
+
 .no_decoration{
 	text-decoration: none !important;
 }
@@ -355,5 +393,99 @@ body{
 .description_text{
 	padding-right: 35%;
 }
+
+/*--------------*/
+/* product_new  */
+.product_new_container{
+	margin-bottom: 25px;
+}
+.product_new_page_title{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-weight: 700;
+}
+.product_new_page_title h2{
+	font-weight: 700;
+}
+.form_input{
+	border-radius: 0px;
+	height: 40px;
+	min-width: 230px;
+	border: 1px black solid;
+}
+.form_input_block{
+	border-bottom: 1px #f7f7f7 solid;
+	width: 60%;
+	padding-bottom: 20px;
+	margin-bottom: 10px;
+}
+.form_text_input_block{
+	border-bottom: 1px #f7f7f7 solid;
+	width: 60%;
+	padding-bottom: 20px;
+	margin-bottom: 10px;
+}
+.form_text_input_block textarea{
+	min-height: 160px;
+	min-width: 475px
+}
+.form_input_block_disp_flex{
+	display: flex;
+	border-bottom: 1px #f7f7f7 solid;
+	width: 60%;
+	padding-bottom: 20px;
+	margin-bottom: 10px;
+}
+.file_input input{
+
+	border: none !important;
+}
+.form_input_photo{
+	display: table;
+	position: relative;
+    overflow: hidden;
+    font-size: 1em;
+    height: 2em;
+    line-height: 2em;
+	margin-bottom: 15px;
+}
+.form_input_photo > div, .form_input_photo > button{
+    float: left;
+    height: 100%;
+    margin: 0
+}
+.buttons_block{
+	display: flex;
+	align-items: end;
+}
+.accept_button{
+	border-radius: 0px;
+	background-color: #76bc21;
+	color: white;
+	font-size: 1.3rem;
+	height: 40px;
+	min-width: 230px;
+	border: none;
+	margin-right: 7px;
+}
+.cancel_button{
+	height: 40px;
+	width: 150px;
+	margin-top:10px;
+	background-color: #f7f7f7;
+	color: white;
+	text-align: center;
+}
+.cancel_button:hover{
+	color: gray;
+}
+.cancel_button p{
+	position: relative;
+	color: black;
+   top: 50%;
+   transform: translate(0, -50%);
+	margin-bottom: 0px;
+}
+
 
 

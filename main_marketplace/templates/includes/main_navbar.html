@@ -11,8 +11,15 @@
 			</div>
             <div class="topnav">
                 <nav>
+                    {% if user.is_admin %}
+                        <a href= '#'>Администрирование</a>
+                    {% endif %}
+                    {% if user.is_staff %}
+                        <a href= '#'>Модерирование</a>
+                    {% endif %}
                     <a href="#">О нас</a>
                     <a href="#">Контакты</a>
+                    <a href="#">Войти</a>
                 </nav>
             </div>
         </div>
@@ -54,10 +61,10 @@
 					<span>Cообщения</span>
 				</div>
 			</a>
-			<a href="#">
+			<a href="{%url 'main_marketplace:product_create' %}">
 				<div class="header_control">
-					<div class="fa fa-sign-in" aria-hidden="true"></div>
-					<span>Войти</span>
+					<div style="color: #76bc21" class="fa fa-sign-in" aria-hidden="true"></div>
+					<span>Опубликовать</span>
 				</div>
 			</a>
 		</div>

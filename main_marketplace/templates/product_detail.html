@@ -59,14 +59,28 @@
                         </div>
                     </a>
                 </div>
-                <a class="no_decoration" href="#">
-                    <div class="contact_card_write_button_block">
-                        <p>Написать продавцу</p>
-                    </div>
-                </a>
-                <div class="contact_card_phone_block">
+
+                {% if user == product.author %}
+                    <a class="no_decoration" href="{%url 'main_marketplace:product_edit' product_id=product.id%}">
+                        <div class="contact_card_write_button_block_edit">
+                            <p>Редактировать</p>
+                        </div>
+                    </a>
+                    <a class="no_decoration" href="#">
+                        <div class="contact_card_write_button_block_delete">
+                            <p>Снять с продажи</p>
+                        </div>
+                    </a>
+                {% else %}
+                    <a class="no_decoration" href="#">
+                        <div class="contact_card_write_button_block">
+                            <p>Написать продавцу</p>
+                        </div>
+                    </a>
+                    <div class="contact_card_phone_block">
                             <p>{{ product.author.cellphone }}</p>
                     </div>
+                {% endif %}
                 <div class="contact_card_cost">{{ product.cost }} ₽</div>
             </div>
 

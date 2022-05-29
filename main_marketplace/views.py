@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+import os
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.base import View
 from .models import Product, SubCategory, MainCategory
+from .forms import ProductForm
 from django.utils import timezone
 from django.template.defaulttags import register
 from django import template
@@ -47,3 +49,40 @@ def product_detail(request, product_id):
     # if fav:
     #     is_fav = True
     return render(request, 'product_detail.html', {'product': product,'categories': categories, 'is_fav':is_fav})
+
+def product_create(request):
+    if not request.user.is_authenticated:
+        return redirect('main_marketplace:product_list')
+    context = {}
+    create_form = ProductForm()
+
+    if request.method == "GET":
+        context['form'] = create_form
+        return render(request, 'product_new.html', context)
+
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save(commit=False)
+            print(request.FILES['image'])
+            product.author = request.user
+            product.published_date = timezone.now()
+            product.save()
+            return redirect("main_marketplace:product_detail", product_id = product.id)
+
+    return render(request, 'product_new.html', context)
+
+def product_edit(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+
+    if request.method == "POST":
+        form = ProductForm(request.POST,request.FILES, instance=product)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.author = request.user
+            product.published_date = timezone.now()
+            product.save()
+            return redirect('main_marketplace:product_detail', product_id=product.pk)
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'product_edit.html', {'form': form, 'product_id':product.id})
