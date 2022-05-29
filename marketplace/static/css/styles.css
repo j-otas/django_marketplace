@@ -1,0 +1,123 @@
+html{
+	font-family: 'Jost', sans-serif;
+}
+body{
+	margin: 0;
+}
+.header{
+	align-items: center;
+	font-size: 1.125rem;
+}
+.header_top{
+	height: 40px;
+    align-items: center;
+	background-color:#f7f7f7;
+	padding-right: 40px;
+	padding-left: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+.topnav a, .header_under a{
+	color: #262626;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.city select{
+ background-color: #f7f7f7 !important;
+ height: 100% !important;
+ color: black !important;
+}
+.city select{
+	padding-left: 0 !important;
+}
+.header_main, .header_under{
+	border-bottom: 1px solid #f7f7f7;
+	font-size: 16px;
+	display: flex;
+	align-items: center;
+	column-gap: 2rem;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-right: 40px;
+	padding-left: 40px;
+}
+.logo_block{
+	width: 100px;
+}
+.logo_block img{
+	width: 100%;
+	max-width: 100%;
+	max-height: 100%;
+}
+.header_category select, .header_search button, .city select{
+	cursor: pointer;
+	align-items: center;
+	height: 50px;
+	display: inline-flex;
+	font-size: 1.125rem;
+	outline: none;
+	background: #76bc21;
+	color: white;
+	font-family: 'Jost', sans-serif;
+	border: 0;
+	padding-left: 25px;
+	padding-right: 25px;
+
+}
+.header_search{
+	width: 100%;
+	height: 50px;
+	box-sizing: border-box;
+	display: flex;
+}
+.header_search form{
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
+.header_search input{
+	    font-size: 18px;
+	border-color: #e4e4e4 !important; 
+	overflow: visible;
+	box-sizing: border-box;
+	display: flex;
+	flex-grow: 1;
+	width: 150px;
+	
+	border-right: none;
+	padding-left: 15px;
+	font-family: 'Jost', sans-serif;
+	border: 1px solid; 
+	border-radius: 0px;
+	outline: 0;
+}
+.header_search button{
+	position: relative
+}
+.search_button:hover, .header_category button:hover{
+	background-color: #88d926;
+}
+.header_controls{
+	text-align: center;
+	text-decoration: none;
+	display: flex;
+}
+.header_controls a{
+	color: #000 !important;
+	text-decoration: none
+}
+.header_control{
+	margin-left: 20px;
+}
+.head_1{
+	margin-left: 0px;
+}
+.header_under{
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+.popular_category{
+	display: inline-flex;
+	border-left: 1px solid #f7f7f7;
+}

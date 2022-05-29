@@ -1,0 +1,81 @@
+{% load static %}
+<div class = "header">
+	<div class="header_top">
+        <div class="container header_top_data">
+            <div class="city">
+				Город:
+				<select type="button">
+				<option selected="" value="" data-marker="option">Иркутск</option>
+				<option value="1" class="category-select-group-H5Ufe" data-marker="option(1)">Ангарск</option>
+				</select>
+			</div>
+            <div class="topnav">
+                <nav>
+                    <a href="#">О нас</a>
+                    <a href="#">Контакты</a>
+                </nav>
+            </div>
+        </div>
+
+	</div>
+
+	<div class="header_main container">
+        <div class="logo_block">
+            <a href="{%url 'main_marketplace:product_list' %}">
+		    <img src={% static 'img/logo.png' %}></a>
+		</div>
+
+		<div class="header_category">
+		<select type="button">
+			<option selected="" value="" data-marker="option">Любая категория</option>
+			<option value="1" class="category-select-group-H5Ufe" data-marker="option(1)">Транспорт</option>
+		</select>
+		</div>
+
+		<div class="header_search">
+			<form action="#">
+				<input type="text" name="search_text" placeholder="Поиск">
+				<button class="search_button" type="submit">
+					<div class="fas fa-search" aria-hidden="true"></div>
+				</button>
+			</form>
+		</div>
+
+		<div class="header_controls">
+			<a href="#">
+				<div class="header_control head_1">
+					<div class="far fa-star" aria-hidden="true"></div>
+					<span>Избранное</span>
+				</div>
+			</a>
+			<a href="#">
+				<div class="header_control">
+					<div class="far fa-comment-dots" aria-hidden="true"></div>
+					<span>Cообщения</span>
+				</div>
+			</a>
+			<a href="#">
+				<div class="header_control">
+					<div class="fa fa-sign-in" aria-hidden="true"></div>
+					<span>Войти</span>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class = "header_under">
+        <div class="container">
+            <div class ="popular_categories">
+			<nav>
+				<div class="popular_category">
+					<a href="#">Недвижимость</a>
+				</div>
+				<div class="popular_category">
+					<a href="#">О нас</a>
+				</div>
+
+			</nav>
+		</div>
+        </div>
+
+	</div>
+</div>

@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>{% block title %}Meto{% endblock %}</title>
+    <link rel="icon"  href="{% static 'img/favicon.png' %}" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="description" content="Торговая площадка на которой возможно реализовать свои товары, вещи и услуги"/>
+
+    <!-- LIBs -->
+    <link href="{% static 'css/lib/bootstrap-4/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/lib/bootstrap-4/bootstrap-grid.css' %}" rel="stylesheet">
+    <link href="{% static 'css/lib/bootstrap-4/bootstrap-reboot.css' %}" rel="stylesheet">
+    <link href="{% static 'css/lib/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/lib/jquery.fancybox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/lib/fontawesome/css/font-awesome.min.css' %}" rel="stylesheet">
+
+
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+
+
+<body>
+<script src="{% static 'js/lib/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'js/lib/1cc137df49.js' %}"></script> <!-- Для FontAwesome -->
+{% block navbar %}
+    {% include 'includes/main_navbar.html' %}
+{% endblock %}
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+
+<script>const user_id = "{{ user.id }}";</script>
+
+
+
+<script src="{% static 'js/lib/jquery.fancybox.min.js' %}"></script>
+
+</body>
+</html>

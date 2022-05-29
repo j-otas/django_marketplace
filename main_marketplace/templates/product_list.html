@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Meto - Главная{% endblock %}
+{% block content %}
+
+<div class="container">
+
+<div class="all_products_container">
+    {% if besplatno %}
+        <div class="products_block">
+        <h2>Отдам даром</h2>
+
+        <div class="product_block_splides">
+            {% for product in besplatno %}
+                <div class="product_block_splide">
+                <a href="#">
+                    <div class="product_block_image_block">
+                        {% if product.image %}
+                            <img src ="{{ product.image.url }}">
+                        {% else %}
+                            <img src ="{% static 'img/no_image_product.jpg' %}">
+                        {% endif %}
+                    </div>
+                    <div class="product_block_description_block">
+                        <div class="product_block_name">
+                            {{ product.title }}
+                        </div>
+                        <div class="product_block_cost">
+                            <div class="description_cost">
+                                {{ product.cost }}
+                            </div>
+                            <div>
+                                ₽
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% for item in s_products.items %}
+        <div class="products_block">
+        <h2>{{ item.0}}</h2>
+            {% for product in item.1%}
+                <div class="product_block_splides">
+                    <div class="product_block_splide">
+                        <a href="#">
+                            <div class="product_block_image_block">
+                                {% if product.image %}
+                                    <img src ="{{ product.image.url }}">
+                                {% else %}
+                                    <img src ="{% static 'img/no_image_product.jpg' %}">
+                                {% endif %}
+                            </div>
+                            <div class="product_block_description_block">
+                                <div class="product_block_name">
+                                    {{ product.title }}
+                                </div>
+                                <div class="product_block_cost">
+                                    <div class="description_cost">
+                                        {{ product.cost }}
+                                    </div>
+                                    <div>
+                                        ₽
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+
+</div>
+</div>
+{% endblock %}
