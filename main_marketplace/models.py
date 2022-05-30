@@ -69,6 +69,15 @@ class Product(models.Model):
         verbose_name = 'Продукт(товар)'
         verbose_name_plural = 'Продукты(товары)'
 
+class FavoriteProduct(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    def __str__(self):
+        return str(self.product) +'-'+str(self.user)
+    class Meta:
+        verbose_name = 'Избранный товар'
+        verbose_name_plural = 'Избранные товары'
+
 @receiver(models.signals.post_delete, sender=Product)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
     """

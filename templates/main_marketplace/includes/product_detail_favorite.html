@@ -1,0 +1,18 @@
+{% if is_fav %}
+    <a class="delete_favorite" href="#" onclick="delete_favorite({{ product.pk }})" data-url="{% url 'main_marketplace:delete_favorite_product' pk=product.pk %}">
+        <div class="fav_button">
+            <div class="fa fa-star" style="padding-right: 5px; " aria-hidden="true">
+            </div>
+            <div>Удалить из избранного</div>
+        </div>
+     </a>
+{% else %}
+    <a class="add_favorite" href="#" onclick="put_favorite({{ product.pk }})" data-url="{% url 'main_marketplace:add_favorite_product' pk=product.pk %}">
+        <div class="fav_button">
+            <div class="far fa-star" style="padding-right: 5px; " aria-hidden="true">
+            </div>
+            <div>В избранное</div>
+        </div>
+     </a>
+{% endif %}
+<p>{{ product.published_date }}</p>

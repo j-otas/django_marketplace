@@ -1,0 +1,41 @@
+{% extends 'main_marketplace\base.html' %}
+{% load static %}
+{% block title %}Meto - Авторизация{% endblock %}
+{% block content %}
+
+    <div class = 'product_new_container'>
+        <div class="product_new_page_title">
+            <h2>Авторизация</h2>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="b-flex-wrap">
+                <div>
+                    <div class="auth_input form_input_block">
+                        <h4>Почта</h4>
+                        {{ form.username }}
+                    </div>
+                    <div class="auth_input form_input_block">
+                        <h4>Пароль</h4>
+                        {{ form.password }}
+                    </div>
+
+                </div>
+            </div>
+            {{form.errors}}
+            <div class="autn_buttons buttons_block">
+                <input type="submit" class="b-form__submit b-form__submit_white b-form__submit_margins accept_button"
+                   value="Войти">
+
+                <a class="no_decoration" href="{%url 'main_marketplace:product_list' %}">
+                    <div class="cancel_button">
+                        <p>Отмена</p>
+                    </div>
+                </a>
+            </div>
+
+
+        </form>
+    </div>
+
+{% endblock %}

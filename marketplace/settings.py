@@ -70,6 +70,7 @@ TEMPLATES = [
         },
     },
 ]
+print(BASE_DIR)
 AUTH_USER_MODEL = 'account.Account'
 WSGI_APPLICATION = 'marketplace.wsgi.application'
 
@@ -130,3 +131,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGOUT_REDIRECT_URL = "main_marketplace:product_list"
+LOGIN_REDIRECT_URL = "main_marketplace:product_list"

@@ -30,7 +30,7 @@
 <script src="{% static 'js/lib/jquery-3.2.1.min.js' %}"></script>
 <script src="{% static 'js/lib/1cc137df49.js' %}"></script> <!-- Для FontAwesome -->
 {% block navbar %}
-    {% include 'includes/main_navbar.html' %}
+    {% include 'main_marketplace/includes/main_navbar.html' %}
 {% endblock %}
 
 <div class="container">
@@ -38,7 +38,7 @@
 </div>
 <footer>
     {% block footer %}
-        {% include 'includes/footer.html' %}
+        {% include 'main_marketplace/includes/footer.html' %}
     {% endblock %}
 </footer>
 
@@ -46,7 +46,7 @@
 <script>const user_id = "{{ user.id }}";</script>
 
 
-
+<script src="{% static 'js/product_actions.js' %}"></script>
 <script src="{% static 'js/lib/jquery.fancybox.min.js' %}"></script>
 
 </body>

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'main_marketplace\base.html' %}
 {% load static %}
 {% block title %}Meto - {{ product.title }}{% endblock %}
 {% block content %}
@@ -6,26 +6,27 @@
     <div class="header_controls glavnaya">
         <a href="{%url 'main_marketplace:product_list' %}">Главная</a>
     </div>
-    <div class="product_title">
-        <h3>{{ product.title }}</h3>
-        <div class="favorite_block">
-             <a href="#">
-                <div class="fav_button">
-                        <div class="far fa-star" style="padding-right: 5px; " aria-hidden="true">
-                        </div>
-                        <div>В избранное</div>
-                </div>
-             </a>
-            <p>{{ product.published_date }}</p>
+    {% if not product.is_active %}
+        <div style="color: red" class="product_title">
+            <h2>Данное объявление находится в архиве</h2>
         </div>
-
+    {% endif %}
+    <div class="product_title">
+        <h3>{{ product.title }}
+        {% if user == product.author %}(Ваше объявление){% endif %}
+        </h3>
+        <div class="favorite_block">
+            {% if not user == product.author %}
+                {% include "main_marketplace/includes/product_detail_favorite.html" %}
+            {% else %}
+                <p></p>
+                <p>{{ product.published_date }}</p>
+            {% endif %}
+        </div>
     </div>
     <div class="product_desription_block">
         {% if product.image %}
-            <div class="description_image_block product_block_image_block" style="
-                    background-image: '{{ product.image.url }}' !important;
-                    backdrop-filter: blur(5px);
-                    ">
+            <div class="description_image_block product_block_image_block" >
         {% else %}
             <div class="description_image_block product_block_image_block">
         {% endif %}
@@ -61,25 +62,30 @@
                 </div>
 
                 {% if user == product.author %}
-                    <a class="no_decoration" href="{%url 'main_marketplace:product_edit' product_id=product.id%}">
-                        <div class="contact_card_write_button_block_edit">
-                            <p>Редактировать</p>
-                        </div>
-                    </a>
-                    <a class="no_decoration" href="#">
-                        <div class="contact_card_write_button_block_delete">
-                            <p>Снять с продажи</p>
-                        </div>
-                    </a>
+                    {% if product.is_active %}
+                        <a class="no_decoration" href="{%url 'main_marketplace:product_edit' product_id=product.id%}">
+                            <div class="contact_card_write_button_block_edit">
+                                <p>Редактировать</p>
+                            </div>
+                        </a>
+
+                        <a class="no_decoration" href="{%url 'main_marketplace:delete_product' product_id=product.id%}">
+                            <div class="contact_card_write_button_block_delete">
+                                <p>Снять с продажи</p>
+                            </div>
+                        </a>
+                    {% endif %}
                 {% else %}
-                    <a class="no_decoration" href="#">
-                        <div class="contact_card_write_button_block">
-                            <p>Написать продавцу</p>
+                    {% if product.is_active %}
+                        <a class="no_decoration" href="#">
+                            <div class="contact_card_write_button_block">
+                                <p>Написать продавцу</p>
+                            </div>
+                        </a>
+                        <div class="contact_card_phone_block">
+                                <p>{{ product.author.cellphone }}</p>
                         </div>
-                    </a>
-                    <div class="contact_card_phone_block">
-                            <p>{{ product.author.cellphone }}</p>
-                    </div>
+                    {% endif %}
                 {% endif %}
                 <div class="contact_card_cost">{{ product.cost }} ₽</div>
             </div>

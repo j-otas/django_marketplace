@@ -18,8 +18,14 @@
                         <a href= '#'>Модерирование</a>
                     {% endif %}
                     <a href="#">О нас</a>
-                    <a href="#">Контакты</a>
-                    <a href="#">Войти</a>
+                
+                    <a href="#">Личный кабинет</a>
+
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'authorization:logout' %}">Выйти</a>
+                    {% else %}
+                        <a href="{% url 'authorization:auth_page' %}">Войти</a>
+                    {% endif %}
                 </nav>
             </div>
         </div>
