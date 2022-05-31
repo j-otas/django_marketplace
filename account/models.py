@@ -7,15 +7,13 @@ import os
 
 class MyAccountManager(BaseUserManager):
 
-    def create_user(self, email, first_name, last_name, username, city, cellphone,  password = None):
+    def create_user(self, email, first_name, cellphone, password = None, city = None):
         if not email or not email or not cellphone:
             raise ValueError("Не указаны необходимые данные пользователья")
 
         user = self.model(
             email = self.normalize_email(email),
-            username = username,
             first_name = first_name,
-            last_name = last_name,
             city = city,
             cellphone = cellphone
         )
@@ -23,16 +21,13 @@ class MyAccountManager(BaseUserManager):
         user.save(using = self._db)
         return user
 
-    def create_superuser(self, username, email, cellphone, password):
+    def create_superuser(self, email, cellphone, password):
         if not email or not email or not cellphone:
             raise ValueError("Не указаны необходимые данные пользователья")
 
         user = self.create_user(
             email = self.normalize_email(email),
-            username = username,
             first_name = "Konstantin",
-            last_name="Grunes",
-            city="Irkutsk",
             cellphone=cellphone,
             password = password,
         )
@@ -47,7 +42,7 @@ class Account(AbstractBaseUser):
 
     first_name = models.CharField(verbose_name = 'Имя', max_length = 30)
     cellphone = PhoneNumberField(verbose_name = 'Номер телефона', null=True, blank=True, unique=True)
-    city = models.ForeignKey(City, related_name="account_city", verbose_name = 'Город', on_delete=models.CASCADE)
+    city = models.ForeignKey(City, related_name="account_city", verbose_name = 'Город', on_delete=models.CASCADE,null=True)
     avatar = models.ImageField(blank=True, null=True, verbose_name="Аватар пользователя", upload_to='user_images',
                               default="no_image.png")
 
@@ -61,7 +56,7 @@ class Account(AbstractBaseUser):
     is_moderated = models.BooleanField(default = False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ["username","cellphone"]
+    REQUIRED_FIELDS = ["cellphone",]
 
     objects = MyAccountManager()
 
