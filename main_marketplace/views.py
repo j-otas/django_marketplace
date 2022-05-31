@@ -1,6 +1,7 @@
 import os
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.base import View
+from django.views.generic import ListView
 from .models import Product, SubCategory, MainCategory,FavoriteProduct
 from .forms import ProductForm
 from django.utils import timezone
@@ -21,7 +22,7 @@ def product_list(request):
     s_products = {}
     besplatno = []
 
-    products = Product.objects.filter(published_date__lte=timezone.now()).order_by("-published_date", ).order_by("category")
+    products = Product.objects.filter(published_date__lte=timezone.now(), is_active = True).order_by("-published_date", ).order_by("category")
     for product in products:
         if product.cost == 0:
             besplatno.append(product)
@@ -131,3 +132,27 @@ def product_edit(request, product_id):
         form = ProductForm(instance=product)
     return render(request, 'main_marketplace/product_edit.html', {'form': form, 'product_id':product.id})
 
+class FavoriteProductsList(ListView):
+    model = FavoriteProduct
+    template_name = 'main_marketplace/favorite_products_list.html'
+    def get_context_data(self, *, object_list=None, **kwargs):
+        data = {'favorites': FavoriteProduct.objects.filter(user=self.request.user)}
+        temp = FavoriteProduct.objects.filter(user=self.request.user)
+        return data
+
+def delete_from_favorit_list(request,pk):
+    if is_ajax(request):
+        try:
+            product = Product.objects.get(pk=pk)
+            context = {}
+
+            favorite = FavoriteProduct.objects.get(user=request.user, product=product)
+            print("Удалить ",pk)
+            favorite.delete()
+
+            context['favorites'] = FavoriteProduct.objects.filter(user=request.user)
+
+            result = render_to_string('main_marketplace/includes/favorite_list_inc.html', context)
+            return JsonResponse({'result': result})
+        except Product.DoesNotExist:
+            return HttpResponseNotFound("<h2>Favorite not found</h2>")

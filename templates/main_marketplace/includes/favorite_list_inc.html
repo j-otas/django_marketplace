@@ -1,0 +1,52 @@
+{% load static %}
+{% if not favorites %}
+    Список избранного - пуст
+{% endif %}
+{% for product in favorites %}
+    <div class="profile_product_block-{{ product.product.pk }}">
+        <div class="product_block_splide fav_product_block_splide">
+            <a href="{% url 'main_marketplace:product_detail' product_id=product.product.pk %}">
+                <div class="fav_block">
+                    <div class="fav_product_block_image_block profile_product_block_image_block">
+                        {% if product.product.image %}
+                            <img src ="{{ product.product.image.url }}">
+                        {% else %}
+                            <img src ="{% static 'img/no_image_product.jpg' %}">
+                        {% endif %}
+                    </div>
+                    <div class="fav_block_description_block fav_name">
+                        <div class="fav_product_block_cost">
+                            <div class="description_cost">
+                                {{ product.product.title }}
+                            </div>
+                            <div class="description_cost">
+                                {{ product.product.cost }}₽
+                            </div>
+                            <div class="description_cost description_city">
+                                г.{{ product.product.city }}
+                            </div>
+                            <div class="description_cost description_city">
+                                {{ product.product.address }}
+                            </div>
+                        </div>
+                        <div >
+                            <a class="no_decoration" href="#">
+                                <div class="fav_contact_block_btn">
+                                    <p>Написать продавцу</p>
+                                </div>
+                            </a>
+                            <div class="contact_card_phone_block">
+                                    <p>{{ product.product.author.cellphone }}</p>
+                            </div>
+                            <div class="fav_a_delete">
+                                <a class="favorit_list_delete-{{ product.product.pk }}" onclick="delete_favorite_list({{ product.product.pk }})" data-url="{% url 'main_marketplace:delete_from_favorit_list' pk=product.product.pk %}" style="color: #da634e;" href="#">Удалить</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </a>
+        </div>
+    </div>
+{% endfor %}

@@ -1,0 +1,20 @@
+{% extends 'main_marketplace\base.html' %}
+{% load static %}
+{% block title %}Meto - Избранные товары{% endblock %}
+
+{% block content %}
+    <div class="header_controls glavnaya">
+        <a href="{%url 'main_marketplace:product_list' %}">Главная</a>
+    </div>
+    <div class="product_title">
+        <h2>Избранное</h2>
+    </div>
+
+    <div class="favorite_products_container">
+        {% if not favorites %}
+            Список избранного - пуст
+        {% else %}
+            {% include "main_marketplace/includes/favorite_list_inc.html" %}
+        {% endif %}
+    </div>
+{% endblock %}

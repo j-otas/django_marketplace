@@ -18,10 +18,11 @@
                         <a href= '#'>Модерирование</a>
                     {% endif %}
                     <a href="#">О нас</a>
-                
-                    <a href="#">Личный кабинет</a>
+
+
 
                     {% if user.is_authenticated %}
+                        <a href="{% url 'personal_page:personal_page' user_id=user.pk %}">Личный кабинет</a>
                         <a href="{% url 'authorization:logout' %}">Выйти</a>
                     {% else %}
                         <a href="{% url 'authorization:auth_page' %}">Войти</a>
@@ -55,7 +56,7 @@
 		</div>
 
 		<div class="header_controls">
-			<a href="#">
+			<a href="{% url 'main_marketplace:favorite_products' %}">
 				<div class="header_control head_1">
 					<div class="far fa-star" aria-hidden="true"></div>
 					<span>Избранное</span>

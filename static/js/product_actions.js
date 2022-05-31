@@ -24,11 +24,11 @@ function delete_favorite(pk) {
 }
 function delete_favorite_list(pk) {
     $.ajax({
-        url: $('.favorit_list_delete').attr('data-url'),
+        url: $('.favorit_list_delete-'+pk).attr('data-url'),
 
         success: function (response) {
             if (response.result) {
-                $('.chat_item-'+pk).remove();
+                $('.favorite_products_container').html(response.result);
             }
         }
     });

@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'account',
     'main_marketplace',
+    'personal_page',
+    
 ]
 
 MIDDLEWARE = [
