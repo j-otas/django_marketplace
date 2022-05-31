@@ -48,7 +48,7 @@ class Product(models.Model):
     description = models.TextField(verbose_name="Описание")
     published_date = models.DateTimeField(blank=True, null=True)
     cost = models.fields.IntegerField(blank=False, null=True, verbose_name="Цена")
-    image = models.ImageField(blank=True, null=True, verbose_name="Изображение", upload_to='product_images/', default=None)
+    image = models.ImageField(blank=True, null=True, verbose_name="Изображение", upload_to='product_images/', default='product_images/no_image_product.jpg')
     is_active = models.BooleanField(default = False)
     is_moderated = models.BooleanField(default = False)
 

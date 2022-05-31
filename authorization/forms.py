@@ -7,7 +7,7 @@ User = get_user_model()
 
 class AuthUserForm(AuthenticationForm, forms.ModelForm):
     class Meta:
-        model = Account
+        model = User
         fields = ('username','password')
 
         def __init__(self, *args, **kwargs):

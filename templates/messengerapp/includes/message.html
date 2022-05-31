@@ -1,0 +1,39 @@
+{% if not chat %}
+    Невозможно начать беседу. Не найден пользователь или вы не имеете доступа к данной беседе.
+{% else %}
+    {% if chat.message_set.all.count == 0 %}
+        <div class="b-chat__content__no-msg">
+            Напишите сообщение первым!
+        </div>
+    {% endif %}
+
+    {% for message in chat.message_set.all %}
+        {% url 'users:profile' message.author.username as the_user_url %}
+        <div class="b-msg-item-wrap {% if message.author.pk == user.pk %}current_user{% endif %}">
+
+            {% if message.author.pk != user.pk %}
+                <div style="background-image: url('/media/{{ message.author.avatar|default:'users_avatars/default.png'}}')"
+                    class="b-msg-item__avatar"></div>
+            {% endif %}
+
+            <div class="b-msg-item {% if not message.is_read %} b-msg-item_unread {% endif %}">
+                {% if message.author.pk != user.pk %}
+                    <div class="b-msg-item__username">
+                        {{ message.author.get_name }}
+                    </div>
+                {% endif %}
+
+                <div class="b-msg-item__username__content">
+                    <span class="b-msg-item__text">{{ message.message|safe }}</span>
+                    <span class="b-msg-item__time">{{ message.pub_date|time:"H:i" }}</span>
+                </div>
+
+                {% if message.image %}
+                    <a href="/media/{{ message.image }}" data-fancybox class="b-msg-item__img-link">
+                        <img src="/media/{{ message.image }}" class="b-msg-item__img" loading="lazy">
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}

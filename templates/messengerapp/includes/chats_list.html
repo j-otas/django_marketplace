@@ -1,0 +1,54 @@
+{% load static %}
+{% for chat in chats %}
+<a href="{% url 'messenger:messages' chat.pk %}" class="b-chat-item
+{% if not chat.last_message.is_read and chat.last_message.author.pk == user.pk %}
+    b-chat-item_unread
+{% elif chat in unread_chats %}
+    b-chat-item_new-msg
+{% endif %}">
+
+    {% if chat.type == 'D' %}
+        {% for member in chat.members.all %}
+            {% if member.pk != user.pk %}
+            <div style="background-image: url('/media/{{ member.avatar|default:'users_avatars/default.png'}}')"
+                 class="b-chat-item__img"></div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <div style="background-image: url('/media/{{ chat.image|default:'chat_logos/default.png' }}')"
+             class="b-chat-item__img"></div>
+    {% endif %}
+
+    <div class="b-chat-item__content">
+        <div class="b-chat-item__username">
+            {% if chat.type == 'D' %}
+                {% for member in chat.members.all %}
+                    {% if member.pk != user.pk %}
+                        {{ member.first_name    |default:'Пользователь удален' }}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {{ chat.title }}
+            {% endif %}
+        </div>
+
+        <div class="b-chat-item__last-msg">
+            {% if chat.last_message.author.pk == user.pk %}
+            <span class="b-chat-item__last-msg-author">Вы: </span>
+            {% endif %}
+
+            {% if chat.last_message %}
+                {{ chat.last_message }}
+            {% else %}
+                <i>Сообщений нет</i>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="b-chat-item__info">
+        <div class="b-chat-item__time">
+            {{ chat.last_message.pub_date|date:"h:s" }}
+        </div>
+    </div>
+</a>
+{% endfor %}

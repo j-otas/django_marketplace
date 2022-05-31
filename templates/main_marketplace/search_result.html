@@ -1,0 +1,44 @@
+{% extends 'main_marketplace\base.html' %}
+{% load static %}
+{% block title %}Meto - Поиск{% endblock %}
+{% block content %}
+
+<div class="container">
+
+    <div class="all_products_container">
+        <div class="products_block">
+        <h2>Результаты поиска</h2>
+        <p>Категория: {{ category }}</p>
+            {% for product in products%}
+                <div class="product_block_splides">
+                    <div class="product_block_splide">
+                        <a href="{% url 'main_marketplace:product_detail' product_id=product.pk %}">
+                            <div class="product_block_image_block">
+                                {% if product.image %}
+                                    <img src ="{{ product.image.url }}">
+                                {% else %}
+                                    <img src ="{% static 'img/no_image_product.jpg' %}">
+                                {% endif %}
+                            </div>
+                            <div class="product_block_description_block">
+                                <div class="product_block_name">
+                                    {{ product.title }}
+                                </div>
+                                <div class="product_block_cost">
+                                    <div class="description_cost">
+                                        {{ product.cost }}
+                                    </div>
+                                    <div>
+                                        ₽
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

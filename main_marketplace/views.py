@@ -10,6 +10,7 @@ from django import template
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.http import HttpResponse,HttpResponseRedirect,HttpResponseNotFound
+from django.db.models import Q
 
 register = template.Library()
 categories = SubCategory.objects.all()
@@ -43,6 +44,34 @@ def product_list(request):
     context['besplatno'] = besplatno
     context['s_products'] = s_products
     return render(request, 'main_marketplace/product_list.html', context)
+
+def search_results_list(request):
+    context = {}
+    context['categories'] = categories
+    context['category'] = ''
+    if request.GET.get('category') != '-1':
+        context['category'] = SubCategory.objects.get(id = request.GET.get('category'))
+    else:
+        context['category'] = "Любая"
+    if request.method == "GET":
+        search_text = request.GET.get('search_text')
+        category = request.GET.get('category')
+
+        if category == '-1' :
+            product_list = Product.objects.filter(
+            Q(title__icontains=search_text))
+            context['products'] = product_list
+        elif search_text == None:
+            product_list = Product.objects.filter(
+                Q(category_id=category))
+            context['products'] = product_list
+        else:
+            product_list = Product.objects.filter(
+                Q(title__icontains=search_text) & Q(category_id=category))
+            context['products'] = product_list
+
+        return render(request, 'main_marketplace/search_result.html', context)
+
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, pk=product_id)

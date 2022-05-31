@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from phonenumber_field.modelfields import PhoneNumberField
 from django.dispatch import receiver
+from main_marketplace.models import City
 import os
 
 class MyAccountManager(BaseUserManager):
@@ -22,13 +23,13 @@ class MyAccountManager(BaseUserManager):
         user.save(using = self._db)
         return user
 
-    def create_superuser(self, email, cellphone, password):
+    def create_superuser(self, username, email, cellphone, password):
         if not email or not email or not cellphone:
             raise ValueError("Не указаны необходимые данные пользователья")
 
         user = self.create_user(
             email = self.normalize_email(email),
-            username = "Admin",
+            username = username,
             first_name = "Konstantin",
             last_name="Grunes",
             city="Irkutsk",
@@ -42,18 +43,16 @@ class MyAccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser):
 
-    email = models.EmailField(verbose_name = "email", max_length = 60, unique = True, default = "")
-    username = models.CharField(max_length = 30, unique = True)
+    email = models.EmailField(verbose_name = "E-Mail", max_length = 60, unique = True, default = "",)
 
-    first_name = models.CharField(max_length = 30)
-    last_name = models.CharField(max_length = 30)
-    cellphone = PhoneNumberField(null=True, blank=True, unique=True)
-    city = models.CharField(max_length = 35)
+    first_name = models.CharField(verbose_name = 'Имя', max_length = 30)
+    cellphone = PhoneNumberField(verbose_name = 'Номер телефона', null=True, blank=True, unique=True)
+    city = models.ForeignKey(City, related_name="account_city", verbose_name = 'Город', on_delete=models.CASCADE)
     avatar = models.ImageField(blank=True, null=True, verbose_name="Аватар пользователя", upload_to='user_images',
                               default="no_image.png")
 
-    date_joined = models.DateTimeField(verbose_name = 'date joined', auto_now_add = True)
-    last_login = models.DateTimeField(verbose_name = 'last login', auto_now = True)
+    date_joined = models.DateTimeField(verbose_name = 'Дата регистрации', auto_now_add = True)
+    last_login = models.DateTimeField(verbose_name = 'Последний онлайн', auto_now = True)
 
     is_admin = models.BooleanField(default = False)
     is_active = models.BooleanField(default = True)
@@ -62,12 +61,12 @@ class Account(AbstractBaseUser):
     is_moderated = models.BooleanField(default = False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ["cellphone"]
+    REQUIRED_FIELDS = ["username","cellphone"]
 
     objects = MyAccountManager()
 
     class Meta:
-        ordering = ('first_name', 'last_name')
+        ordering = ('first_name',)
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 

@@ -8,3 +8,11 @@
 /venv
 
 /media/*
+
+!/media/product_images/
+/media/product_images/*
+!/media/product_images/no_image_product.jpg
+
+!/media/users_avatars/
+/media/users_avatars/*
+!/media/users_avatars/default.png

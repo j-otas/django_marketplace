@@ -77,7 +77,7 @@
                     {% endif %}
                 {% else %}
                     {% if product.is_active %}
-                        <a class="no_decoration" href="#">
+                        <a class="no_decoration" href="{% url 'messenger:create_dialog' product.author.pk %}" class="b-card-item__action-btn">
                             <div class="contact_card_write_button_block">
                                 <p>Написать продавцу</p>
                             </div>

@@ -6,7 +6,7 @@
 				Город:
 				<select type="button">
 				<option selected="" value="" data-marker="option">Иркутск</option>
-				<option value="1" class="category-select-group-H5Ufe" data-marker="option(1)">Ангарск</option>
+				<option selected value="1" class="category-select-group-H5Ufe" data-marker="option(1)">Ангарск</option>
 				</select>
 			</div>
             <div class="topnav">
@@ -18,8 +18,6 @@
                         <a href= '#'>Модерирование</a>
                     {% endif %}
                     <a href="#">О нас</a>
-
-
 
                     {% if user.is_authenticated %}
                         <a href="{% url 'personal_page:personal_page' user_id=user.pk %}">Личный кабинет</a>
@@ -39,21 +37,28 @@
 		    <img src={% static 'img/logo.png' %}></a>
 		</div>
 
-		<div class="header_category">
-		<select type="button">
-			<option selected="" value="" data-marker="option">Любая категория</option>
-			<option value="1" class="category-select-group-H5Ufe" data-marker="option(1)">Транспорт</option>
-		</select>
-		</div>
+		<form action="{% url 'main_marketplace:search_results' %}" , method="GET",
+              style="
+              width: 100%;
+              display: contents;">
+            <div class="header_category">
+                <select name='category' type="button">
+                    <option selected="" value="-1" data-marker="option">Любая категория</option>
+                    {% for category in categories %}
+                        <option value={{ category.id }} class="category-select-group-H5Ufe" data-marker="category-{{ category.id }}">
+                            {{ category }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="header_search">
+                <input type="text" name="search_text" placeholder="Поиск">
+                <button class="search_button" type="submit">
+                    <div class="fas fa-search" aria-hidden="true"></div>
+                </button>
+            </div>
+        </form>
 
-		<div class="header_search">
-			<form action="#">
-				<input type="text" name="search_text" placeholder="Поиск">
-				<button class="search_button" type="submit">
-					<div class="fas fa-search" aria-hidden="true"></div>
-				</button>
-			</form>
-		</div>
 
 		<div class="header_controls">
 			<a href="{% url 'main_marketplace:favorite_products' %}">
@@ -62,7 +67,7 @@
 					<span>Избранное</span>
 				</div>
 			</a>
-			<a href="#">
+			<a href="{% url 'messenger:dialogs' %}">
 				<div class="header_control">
 					<div class="far fa-comment-dots" aria-hidden="true"></div>
 					<span>Cообщения</span>
