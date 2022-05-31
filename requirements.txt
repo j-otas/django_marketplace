@@ -1,0 +1,11 @@
+virtualenv
+requests
+Django~=4.0.4
+Pillow
+django-phonenumber-field
+phonenumbers
+django-bootstrap-modal-forms
+channels==3.0.4
+channels-redis==3.4.0
+aioredis==1.3.1
+hiredis==2.0.0
