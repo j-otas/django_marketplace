@@ -66,7 +66,7 @@ class Account(AbstractBaseUser):
         verbose_name_plural = 'Пользователи'
 
     def __str__(self):
-        return self.first_name + ', ' + self.last_name + ', ' + self.cellphone.as_e164
+        return self.first_name + ', ' + ', ' + self.cellphone.as_e164
 
     def has_perm(self, perm, obj = None):
         return self.is_admin
