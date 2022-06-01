@@ -76,14 +76,14 @@ class EditChatView(UpdateView):
         return super().form_valid(form)
 
 
-def create_dialog(request, friend_id):
-    duplicate = Chat.objects.filter(members__id__contains=friend_id, type='D') & \
-                Chat.objects.filter(members__id__icontains=request.user.pk, type='D')
+def create_dialog(request, sobesednik_id, product_id):
+    duplicate = Chat.objects.filter(members__id__contains=sobesednik_id) & \
+                Chat.objects.filter(members__id__icontains=request.user.pk)
     if duplicate.exists():
         return redirect(reverse('messenger:messages', kwargs={'chat_id': duplicate[0].pk}))
 
-    chat = Chat.objects.create(type='D')
-    members = Account.objects.filter(pk__in=[friend_id, request.user.pk])
+    chat = Chat.objects.create(product = Product.objects.get(id = product_id))
+    members = Account.objects.filter(pk__in=[sobesednik_id, request.user.pk])
     chat.members.add(*members)
     return redirect(reverse('messenger:messages', kwargs={'chat_id': chat.pk}))
 

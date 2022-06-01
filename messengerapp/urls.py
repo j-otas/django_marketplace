@@ -5,7 +5,7 @@ app_name = 'messenger'
 
 urlpatterns = [
     path('', messengerapp.DialogsView.as_view(), name='dialogs'),
-    path('create/<friend_id>/', messengerapp.create_dialog, name='create_dialog'),
+    path('create/<sobesednik_id>/<product_id>/', messengerapp.create_dialog, name='create_dialog'),
     path('create_chat/', messengerapp.CreateChatView.as_view(), name='create_chat'),
     path('delete/<chat_id>/', messengerapp.delete_dialog, name='delete_chat'),
     path('edit/<pk>/', messengerapp.EditChatView.as_view(), name='edit_chat'),

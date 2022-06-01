@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from account.models import Account
+from main_marketplace.models import Product
 
 
 class ChatManager(models.Manager):
@@ -15,17 +16,9 @@ class ChatManager(models.Manager):
 
 
 class Chat(models.Model):
-    DIALOG = 'D'
-    CHAT = 'C'
-    CHAT_TYPE_CHOICES = (
-        (DIALOG, 'Dialog'),
-        (CHAT, 'Chat')
-    )
-
-    type = models.CharField(max_length=1, choices=CHAT_TYPE_CHOICES, default=DIALOG, verbose_name='Тип')
+    product = models.ForeignKey(Product, verbose_name="Обсуждаемый товар", on_delete=models.CASCADE, default = 0)
     members = models.ManyToManyField(Account, verbose_name="Участник", blank=False)
     title = models.CharField(max_length=50, blank=False, verbose_name='Название')
-    image = models.FileField("Изображение", upload_to='chat_logos', null=True, blank=True, default=None)
     last_message = models.ForeignKey('Message', related_name='last_message', null=True, blank=True,
                                      on_delete=models.SET_NULL)
     objects = ChatManager()
@@ -49,7 +42,6 @@ class Message(models.Model):
     chat = models.ForeignKey(Chat, verbose_name="Чат", on_delete=models.CASCADE)
     author = models.ForeignKey(Account, verbose_name="Пользователь", on_delete=models.DO_NOTHING)
     message = models.TextField("Сообщение")
-    image = models.FileField("Изображение", upload_to='messages', null=True, blank=True, default=None)
     pub_date = models.DateTimeField('Дата сообщения', default=timezone.now)
     is_read = models.BooleanField('Прочитано', default=False)
 

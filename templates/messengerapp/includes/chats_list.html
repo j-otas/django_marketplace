@@ -6,49 +6,74 @@
 {% elif chat in unread_chats %}
     b-chat-item_new-msg
 {% endif %}">
-
-    {% if chat.type == 'D' %}
-        {% for member in chat.members.all %}
-            {% if member.pk != user.pk %}
-            <div style="background-image: url('/media/{{ member.avatar|default:'users_avatars/default.png'}}')"
-                 class="b-chat-item__img"></div>
-            {% endif %}
-        {% endfor %}
-    {% else %}
-        <div style="background-image: url('/media/{{ chat.image|default:'chat_logos/default.png' }}')"
-             class="b-chat-item__img"></div>
-    {% endif %}
-
     <div class="b-chat-item__content">
-        <div class="b-chat-item__username">
-            {% if chat.type == 'D' %}
-                {% for member in chat.members.all %}
-                    {% if member.pk != user.pk %}
-                        {{ member.first_name    |default:'Пользователь удален' }}
-                    {% endif %}
-                {% endfor %}
-            {% else %}
-                {{ chat.title }}
-            {% endif %}
+        <div class="dialogs_product_block">
+            <div class="product_block_splide fav_product_block_splide">
+
+                    <div class="fav_block">
+                        <a href="{% url 'main_marketplace:product_detail' product_id=chat.product.pk %}">
+                        <div class="fav_product_block_image_block profile_product_block_image_block">
+                            {% if chat.product.image %}
+                                <img src ="{{ chat.product.image.url }}">
+                            {% else %}
+                                <img src ="{% static 'img/no_image_product.jpg' %}">
+                            {% endif %}
+                        </div>
+                        </a>
+                        <div class="fav_block_description_block fav_name">
+                            <div class="fav_product_block_cost">
+                                <div class="description_cost">
+                                    {{ chat.product.title }}
+                                </div>
+                                <div class="description_cost">
+                                    {{ chat.product.cost }}₽
+                                </div>
+                                <div class="b-chat-item__username">
+                                    {% for member in chat.members.all %}
+                                        {% if member.pk != user.pk %}
+                                            {{ member.first_name    |default:'Пользователь удален' }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="b-chat-item__last-msg">
+                                    {% if chat.last_message.author.pk == user.pk %}
+                                    <span class="b-chat-item__last-msg-author">Вы: </span>
+                                    {% endif %}
+
+                                    {% if chat.last_message %}
+                                        {{ chat.last_message }}
+                                    {% else %}
+                                        <i>Сообщений нет</i>
+                                    {% endif %}
+                                    <div class="b-chat-item__time">
+                                        {{ chat.last_message.pub_date|date:"h:s" }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div >
+                                <a class="no_decoration" href="{% url 'messenger:messages' chat.pk %}">
+                                    <div class="fav_contact_block_btn">
+                                        <p>Перейти в чат</p>
+                                    </div>
+                                </a>
+                                <div class="fav_a_delete">
+{#                                    <a class="favorit_list_delete-{{ chat.product.pk }}" onclick="delete_favorite_list({{ chat.product.product.pk }})" data-url="{% url 'main_marketplace:delete_from_favorit_list' pk=chat.product.pk %}" style="color: #da634e;" href="#">Удалить</a>#}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </a>
+            </div>
         </div>
 
-        <div class="b-chat-item__last-msg">
-            {% if chat.last_message.author.pk == user.pk %}
-            <span class="b-chat-item__last-msg-author">Вы: </span>
-            {% endif %}
 
-            {% if chat.last_message %}
-                {{ chat.last_message }}
-            {% else %}
-                <i>Сообщений нет</i>
-            {% endif %}
-        </div>
+
     </div>
 
     <div class="b-chat-item__info">
-        <div class="b-chat-item__time">
-            {{ chat.last_message.pub_date|date:"h:s" }}
-        </div>
+
     </div>
 </a>
 {% endfor %}

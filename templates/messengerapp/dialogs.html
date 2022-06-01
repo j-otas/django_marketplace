@@ -5,9 +5,7 @@
 <div class="row">
     <div class="col-lg-8 offset-lg-2">
         <div class="b-search-wrap bg-dark-blur unselectable">
-            <input type="text" class="b-form__input b-search-input" placeholder="Поиск">
-
-            <a href="{% url 'messenger:create_chat' %}" class="b-btn-white b-btn-white_ml">+ Создать беседу</a>
+            <h3>Список диалогов</h3>
         </div>
 
         {% if chats.count == 0 %}

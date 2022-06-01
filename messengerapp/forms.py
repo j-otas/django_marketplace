@@ -18,7 +18,7 @@ class MessageForm(ModelForm):
 class CreateChatForm(ModelForm):
     class Meta:
         model = Chat
-        fields = ("title", "image", "members", "type")
+        fields = ("title", "members")
 
     def __init__(self, *args, **kwargs):
         super(CreateChatForm, self).__init__(*args, **kwargs)
@@ -37,36 +37,3 @@ class CreateChatForm(ModelForm):
         if not user_qset[0] in members:
             members = list(chain(members, user_qset))
         return members
-
-    def clean_image(self):
-        image = self.cleaned_data['image']
-
-        if not image:
-            return False
-
-        try:
-            w, h = get_image_dimensions(image)
-
-            max_width = max_height = 1920
-            if w > max_width or h > max_height:
-                raise forms.ValidationError(
-                    f'Пожалуйста, испльзуйте изображения {max_width} x {max_height} пикселов или меньше.')
-
-            main, sub = image.content_type.split('/')
-            if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
-                raise forms.ValidationError('Пожалуйста, используйте JPEG, GIF или PNG изображения.')
-
-            if len(image) > (2048 * 1024):
-                raise forms.ValidationError('Размер файла не может превышать 2 Мб.')
-
-        except AttributeError:
-            """
-            Handles case when we are updating the user profile
-            and do not supply a new avatar
-            """
-            return image
-
-        except TypeError:
-            raise forms.ValidationError('Пожалуйста, используйте JPEG, GIF или PNG изображения.')
-
-        return image
