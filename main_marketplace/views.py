@@ -2,7 +2,7 @@ import os
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.base import View
 from django.views.generic import ListView
-from .models import Product, SubCategory, MainCategory,FavoriteProduct
+from .models import Product, SubCategory, MainCategory,FavoriteProduct,City
 from .forms import ProductForm
 from django.utils import timezone
 from django.template.defaulttags import register
@@ -11,43 +11,57 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.http import HttpResponse,HttpResponseRedirect,HttpResponseNotFound
 from django.db.models import Q
-
+from django.forms.models import model_to_dict
+import json
 register = template.Library()
-categories = SubCategory.objects.all()
+
+
+
+def get_sel_city(request):
+    selected_city = City
+    try:
+        selected_city = get_object_or_404(City, id=request.session['selected_city_id'])
+    except:
+        selected_city = get_object_or_404(City, name="Иркутск")
+    print("Выбранный город", selected_city)
+    return selected_city
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+def select_city(request, city_id):
+    if request.method == "POST":
+        request.session['selected_city_id'] = get_object_or_404(City, id = city_id ).id
+        return HttpResponse('')
+
 
 def product_list(request):
     context = {}
     s_products = {}
     besplatno = []
 
-    products = Product.objects.filter(published_date__lte=timezone.now(), is_active = True).order_by("-published_date", ).order_by("category")
+    products = Product.objects.filter(published_date__lte=timezone.now(),
+                                      is_active = True,
+                                      city = get_sel_city(request)).order_by("-published_date", ).order_by("category")
     for product in products:
         if product.cost == 0:
             besplatno.append(product)
         if len(besplatno) == 6 or len(besplatno)>6:
             break
-    print(products)
 
     for product in products:
         if not s_products.get(product.category.main_category.name):
             s_products[product.category.main_category.name] = [product,]
             continue
         s_products[product.category.main_category.name].append(product)
-    print(s_products)
-
 
     context['products'] = products
-    context['categories'] = categories
     context['besplatno'] = besplatno
     context['s_products'] = s_products
     return render(request, 'main_marketplace/product_list.html', context)
 
 def search_results_list(request):
     context = {}
-    context['categories'] = categories
     context['category'] = ''
     if request.GET.get('category') != '-1':
         context['category'] = SubCategory.objects.get(id = request.GET.get('category'))
@@ -58,16 +72,17 @@ def search_results_list(request):
         category = request.GET.get('category')
 
         if category == '-1' :
-            product_list = Product.objects.filter(
-            Q(title__icontains=search_text))
+            product_list = Product.objects.filter(Q(title__icontains=search_text),
+                                                  city = get_sel_city(request))
             context['products'] = product_list
         elif search_text == None:
             product_list = Product.objects.filter(
-                Q(category_id=category))
+                Q(category_id=category),
+                city = get_sel_city(request))
             context['products'] = product_list
         else:
             product_list = Product.objects.filter(
-                Q(title__icontains=search_text) & Q(category_id=category))
+                Q(title__icontains=search_text) & Q(category_id=category), city = get_sel_city(request), is_active = True)
             context['products'] = product_list
 
         return render(request, 'main_marketplace/search_result.html', context)
@@ -84,10 +99,9 @@ def product_detail(request, product_id):
         fav = False
     if fav:
         is_fav = True
-    return render(request, 'main_marketplace/product_detail.html', {'product': product,'categories': categories, 'is_fav':is_fav})
+    return render(request, 'main_marketplace/product_detail.html', {'product': product, 'is_fav':is_fav})
 
 def add_favorite_product(request,pk):
-
     if is_ajax(request):
         product = Product.objects.get(pk=pk)
         favorite = FavoriteProduct(user=request.user, product=product)
@@ -100,7 +114,6 @@ def add_favorite_product(request,pk):
 
 def delete_favorite_product(request,pk):
     if is_ajax(request):
-        print("ajax получен")
         try:
             product = Product.objects.get(pk=pk)
             favorite = FavoriteProduct.objects.get(user=request.user, product=product)
@@ -127,7 +140,6 @@ def product_create(request):
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save(commit=False)
-            print(request.FILES['image'])
             product.author = request.user
             product.published_date = timezone.now()
             product.save()
@@ -142,7 +154,7 @@ def delete_product(request, product_id):
         product = form.save(commit=False)
         product.is_active = False
         product.save()
-        return render(request, 'main_marketplace/product_detail.html', {'product': product,'categories': categories})
+        return render(request, 'main_marketplace/product_detail.html', {'product': product,})
     except Product.DoesNotExist:
         return HttpResponseNotFound("<h2>Person not found</h2>")
 
@@ -174,11 +186,8 @@ def delete_from_favorit_list(request,pk):
         try:
             product = Product.objects.get(pk=pk)
             context = {}
-
             favorite = FavoriteProduct.objects.get(user=request.user, product=product)
-            print("Удалить ",pk)
             favorite.delete()
-
             context['favorites'] = FavoriteProduct.objects.filter(user=request.user)
 
             result = render_to_string('main_marketplace/includes/favorite_list_inc.html', context)

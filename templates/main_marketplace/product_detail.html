@@ -51,9 +51,13 @@
                 <div class="contact_card_user">
                     <a href="{% url 'personal_page:personal_page' user_id=product.author.pk %}">
                         <div class="avatar_and_name">
-                            <div class="contact_card_user_avatar_block">
-                                <img src="">
-                            </div>
+                            <div class="avatar_personal_page" style = "
+                background: url({{ product.author.avatar.url }});
+                                    width: 60px;
+                                    height: 60px;
+                                    min-width: 60px !important;
+                ">
+                </div>
                             <div class="contact_card_username">
                                 {{ product.author.first_name }}
                             </div>
@@ -83,7 +87,11 @@
                             </div>
                         </a>
                         <div class="contact_card_phone_block">
+                            {% if product.author.hide_cellphone or not product.author.cellphone %}
+                                <p>Номер не указан либо скрыт</p>
+                            {% else %}
                                 <p>{{ product.author.cellphone }}</p>
+                            {% endif %}
                         </div>
                     {% endif %}
                 {% endif %}

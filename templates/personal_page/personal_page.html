@@ -12,14 +12,20 @@
     <div class="profile_info_container">
         <div class="profile_avatar_and_bio">
             <div class="avatar_container">
-                <div class="avatar">
-                    <img src="">
+                <div class="avatar_personal_page" style = "
+                background: url({{ cur_user.avatar.url }});
+                ">
                 </div>
             </div>
             <div class="bio_container">
                 <h3>{{ cur_user.first_name }}</h3>
                 <p>Дата регистрации: {{ cur_user.date_joined.day }}.{{ cur_user.date_joined.month }}.{{ cur_user.date_joined.year }}</p>
+                <a href="{% url "personal_page:personal_edit" user_id=cur_user.id %}">
+                    <div class="fas fa-cog" aria-hidden="true"></div>
+                    <span>Редактировать</span>
+                </a>
             </div>
+
         </div>
 
         <div class="bio_info_contaier">

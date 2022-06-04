@@ -41,10 +41,13 @@ class Account(AbstractBaseUser):
     email = models.EmailField(verbose_name = "E-Mail", max_length = 60, unique = True, default = "",)
 
     first_name = models.CharField(verbose_name = 'Имя', max_length = 30)
-    cellphone = PhoneNumberField(verbose_name = 'Номер телефона', null=True, blank=True, unique=True)
+    last_name = models.CharField(verbose_name = 'Фамилия', max_length = 30, blank=True, null=True)
     city = models.ForeignKey(City, related_name="account_city", verbose_name = 'Город', on_delete=models.CASCADE,null=True)
+    cellphone = PhoneNumberField(verbose_name='Номер телефона', null=True, blank=True, unique=True)
     avatar = models.ImageField(blank=True, null=True, verbose_name="Аватар пользователя", upload_to='user_images',
-                              default="no_image.png")
+                              default="users_avatars/default.png")
+
+    hide_cellphone = models.BooleanField(verbose_name = "Скрыть номер телефона", blank=True, null = True, default = False)
 
     date_joined = models.DateTimeField(verbose_name = 'Дата регистрации', auto_now_add = True)
     last_login = models.DateTimeField(verbose_name = 'Последний онлайн', auto_now = True)

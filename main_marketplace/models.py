@@ -2,7 +2,7 @@ import os
 from django.db import models
 from django.conf import settings
 from django.dispatch import receiver
-
+import json
 class MainCategory(models.Model):
     name = models.CharField(max_length=200, db_index=True)
 
@@ -37,6 +37,7 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
+
 class Product(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     city = models.ForeignKey(City, related_name = 'city', verbose_name = "Город", on_delete = models.CASCADE)
@@ -48,7 +49,7 @@ class Product(models.Model):
     description = models.TextField(verbose_name="Описание")
     published_date = models.DateTimeField(blank=True, null=True)
     cost = models.fields.IntegerField(blank=False, null=True, verbose_name="Цена")
-    image = models.ImageField(blank=True, null=True, verbose_name="Изображение", upload_to='product_images/', default='product_images/no_image_product.jpg')
+    image = models.ImageField(blank=True, null=False, verbose_name="Изображение", upload_to='product_images/', default='product_images/no_image_product.jpg')
     is_active = models.BooleanField(default = False)
     is_moderated = models.BooleanField(default = False)
 

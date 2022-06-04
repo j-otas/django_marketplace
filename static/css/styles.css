@@ -521,14 +521,20 @@ body{
 .profile_avatar_and_bio{
 	display: flex;
 }
-.avatar{
+.avatar_personal_page{
 	width: 100px;
 	min-width: 100px;
-
 	height: 100px;
 	border: 1px solid #999;
 	border-radius: 100%;
 	margin: 0px 10px 0 0px;
+	background-size: auto 100% !important;
+	background-size: cover !important;
+}
+
+.bio_container a{
+	    color: #000 !important;
+    text-decoration: none;
 }
 .profile_products_container{
 	display: grid;
@@ -550,6 +556,17 @@ body{
 
 .profile_product_block_image_block{
 	height: 160px;
+}
+
+.checkbox_input{
+	padding-top: 7px;
+	padding-bottom: 0px;
+	border: 0px;
+	margin-bottom: 0px;
+	height: 29px;
+}
+.checkbox_input input{
+	height: 22px;
 }
 
 /*---------------*/

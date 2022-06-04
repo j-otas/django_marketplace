@@ -1,0 +1,65 @@
+{% extends 'main_marketplace/base.html' %}
+{% load static %}
+{% block title %}Meto - {{ product.title }}{% endblock %}
+{% block content %}
+    <div class = 'product_new_container'>
+        <div class="product_new_page_title">
+            <h2>Редактировать профиль</h2>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="b-flex-wrap">
+                <div>
+                    <div class="form_input_block_disp_flex">
+                        <div style="margin-right: 15px">
+                            <h4>Имя</h4>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="">
+                                <h4>Фамилия</h4>
+                                {{ form.last_name}}
+                            </div>
+                    </div>
+                    <div class="form_input_block">
+                        <h4>E-Mail</h4>
+                        {{ form.email }}
+                    </div>
+                    <div class="form_input_block">
+                        <h4>Город</h4>
+                        {{ form.city}}
+                    </div>
+                    <div class="form_input_block">
+                        <h4>Телефон</h4>
+                        {{ form.cellphone}}
+                        <div class="form_input_block_disp_flex checkbox_input">
+                            <p>Скрыть номер</p>
+                            {{ form.hide_cellphone }}
+                        </div>
+                    </div>
+
+
+                    <div class="form_input_photo">
+                        <h4>Аватар</h4>
+                        <div class="file_input">
+                            {{ form.avatar}}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {{form.errors}}
+            <div class="buttons_block">
+                <input type="submit" class="b-form__submit b-form__submit_white b-form__submit_margins accept_button"
+                   value="Опубликовать">
+
+                <a class="no_decoration" href="{%url 'main_marketplace:product_list' %}">
+                    <div class="cancel_button">
+                        <p>Отмена</p>
+                    </div>
+                </a>
+            </div>
+
+
+        </form>
+    </div>
+{% endblock %}

@@ -2,11 +2,24 @@
 <div class = "header">
 	<div class="header_top">
         <div class="container header_top_data">
+        {% csrf_token %}
+        <script>
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        </script>
             <div class="city">
 				Город:
-				<select type="button">
-				<option selected="" value="" data-marker="option">Иркутск</option>
-				<option selected value="1" class="category-select-group-H5Ufe" data-marker="option(1)">Ангарск</option>
+				<select class="city_select" type="button">
+                    {% if selected_city %}
+                        <option selected value="1" class="category-select-group-H5Ufe" data-marker="option(1)">{{ selected_city.name }}</option>
+                        {% for city in all_cities %}
+                            {% if city != selected_city %}
+                                <option class="option-city-{{ city.id }}" value="{{ city.id }}" data-url="{% url 'main_marketplace:select_city' city_id=city.id %}" data-marker="option">
+                                        {{ city.name }}
+                                </option>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                    {% endif %}
 				</select>
 			</div>
             <div class="topnav">
@@ -44,6 +57,7 @@
             <div class="header_category">
                 <select name='category' type="button">
                     <option selected="" value="-1" data-marker="option">Любая категория</option>
+                    {{ categories }}
                     {% for category in categories %}
                         <option value={{ category.id }} class="category-select-group-H5Ufe" data-marker="category-{{ category.id }}">
                             {{ category }}
@@ -85,13 +99,11 @@
         <div class="container">
             <div class ="popular_categories">
 			<nav>
-				<div class="popular_category">
-					<a href="#">Недвижимость</a>
-				</div>
-				<div class="popular_category">
-					<a href="#">О нас</a>
-				</div>
-
+                {% for main_category in main_categories|slice:":8" %}
+                    <div class="popular_category">
+                        <a href="#">{{ main_category }}</a>
+                    </div>
+                {% endfor %}
 			</nav>
 		</div>
         </div>

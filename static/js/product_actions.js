@@ -1,7 +1,21 @@
+$( ".city_select" ).change(function() {
+
+    $.ajax({
+        type: 'POST',
+        headers: {'X-CSRFToken': csrftoken},
+        url: $(this).find('option:selected').attr('data-url'),
+        success: function () {
+            location.reload();
+        }
+    })
+});
+
 function put_favorite(pk) {
     $.ajax({
         url: $('.add_favorite').attr('data-url'),
-
+        type: 'POST',
+        dataType: 'json',
+        headers: {'X-CSRFToken': csrftoken},
         success: function (response) {
             if (response.result) {
                 $('.favorite_block').html(response.result);
@@ -9,7 +23,6 @@ function put_favorite(pk) {
         }
     });
 }
-
 
 function delete_favorite(pk) {
     $.ajax({
