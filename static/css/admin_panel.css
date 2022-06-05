@@ -1,0 +1,146 @@
+.zagolovok {
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    text-align: center !important;
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+a:link, a:visited, a:hover, a:active, a:focus {
+    text-decoration: none;
+}
+
+.list-group-item {
+    background-color: #f7f7f7;
+}
+
+.list-group-item:hover {
+    background-color: #c1caca;
+}
+
+.list_item {
+    list-style-type: none;
+    cursor: pointer;
+}
+
+
+li.list-group-item > a {
+    display: block;
+    text-decoration: none;
+    padding: 12px;
+}
+
+li {
+    padding: 0px !important;
+}
+
+.functions-table {
+    position: sticky;
+    left: 0;
+    border: 1px solid #dbdbdb;
+    width: 210px;
+}
+
+table.ul {
+    max-height: 5px;
+}
+
+table {
+    margin-bottom: 0 !important;
+    position: relative;
+    vertical-align: top;
+    max-width: 100% !important;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.table_block {
+    overflow: auto;
+}
+
+td.functions-table {
+    background: #212529;
+    color: #262626;
+    height: 106px;
+    padding: 0 5px;
+}
+
+th.functions-table {
+    background-color: #212529;
+}
+
+.functions-table {
+    border-left-width: 0px !important;
+    border-right-width: 0px !important;
+}
+
+.moderate_product_img {
+    width: 50vh;
+}
+
+.moderate_product_img img {
+    width: 100%;
+}
+
+
+.blog-card {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem auto;
+    box-shadow: 0px 3px 7px -1px rgb(170 170 170);
+    margin-bottom: 1.6%;
+    background: #fff;
+    line-height: 1.4;
+    font-family: sans-serif;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 0;
+    width: 100%;}
+
+.meta {
+    position: relative;
+    z-index: 0;
+    height: 200px;
+}
+
+.photo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform .2s;
+}
+
+.details,
+.details ul {
+    margin: auto;
+    padding: 0;
+    list-style: none;
+}
+
+.details {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -100%;
+    margin: auto;
+    transition: left .2s;
+    padding: 10px;
+    width: 100%;
+    font-size: .9rem;
+}
+p {
+    position: relative;
+    margin: 1rem 0 0;
+}
+.description h3 {
+    overflow-wrap: break-word;
+}

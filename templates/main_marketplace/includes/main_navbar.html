@@ -25,7 +25,7 @@
             <div class="topnav">
                 <nav>
                     {% if user.is_admin %}
-                        <a href= '#'>Администрирование</a>
+                        <a href= '{% url 'admin_panel:admin_main' %}'>Администрирование</a>
                     {% endif %}
                     {% if user.is_staff %}
                         <a href= '#'>Модерирование</a>
@@ -64,7 +64,7 @@
                         <option selected="" value='[ "{{main_category.id}}", "{{category.id}}" ]' data-marker="option">{{ category }}</option>
                     {% elif main_category %}
                         <option value='[ "-1", "-1" ]' data-marker="option">Любая категория</option>
-                        <option selected="" value='[ "{{main_category.id}}", "{{category.id}}" ]' data-marker="option">{{ main_category }}</option>
+                        <option selected="" value='[ "{{main_category.id}}", "-2" ]' data-marker="option">{{ main_category }}</option>
                     {% else %}
                         <option selected="" value='[ "-1", "-1" ]' data-marker="option">Любая категория</option>
                     {% endif %}
@@ -118,7 +118,7 @@
 			<nav>
                 {% for main_category in main_categories|slice:":8" %}
                     <div class="popular_category">
-                        <a href="#">{{ main_category }}</a>
+                        <a href="{% url 'main_marketplace:category' main_category_id=main_category.id %}">{{ main_category }}</a>
                     </div>
                 {% endfor %}
 			</nav>

@@ -11,6 +11,7 @@ urlpatterns = [
     path('product/create/', views.product_create, name='product_create'),
     path('product/<int:product_id>/edit', views.product_edit, name='product_edit'),
     path('search', views.search_results_list, name='search_results'),
+    path('category/<int:main_category_id>', views.category, name='category'),
     path('favorite', views.FavoriteProductsList.as_view(), name='favorite_products'),
     path('product/<int:pk>/favorite_add', views.add_favorite_product, name='add_favorite_product'),
     path('product/<int:pk>/favorite_delete', views.delete_favorite_product, name='delete_favorite_product'),

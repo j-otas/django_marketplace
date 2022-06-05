@@ -1,0 +1,14 @@
+{% load static %}
+<div class="blog-card">
+    <div class="detail_img pt-0">
+        <img src={{ acc.avatar.url }}>
+    </div>
+    <div class="description">
+        <h1>Ник:{{ acc.username|linebreaksbr }}</h1>
+        <h2>Имя-Фамилия: {{ acc.first_name|linebreaksbr }}-{{ acc.last_name|linebreaksbr }}</h2>
+        <h3>Город:{{ acc.country }}</h3>
+        <p class="read-more">
+            <a href="{% url 'personal_page:personal_page' acc.pk %}">Подробнее</a>
+        </p>
+    </div>
+</div>

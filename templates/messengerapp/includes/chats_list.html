@@ -1,13 +1,7 @@
 {% load static %}
-{% for chat in chats %}
-<a href="{% url 'messenger:messages' chat.pk %}" class="b-chat-item
-{% if not chat.last_message.is_read and chat.last_message.author.pk == user.pk %}
-    b-chat-item_unread
-{% elif chat in unread_chats %}
-    b-chat-item_new-msg
-{% endif %}">
     <div class="b-chat-item__content">
         <div class="dialogs_product_block">
+        {% for chat in chats %}
             <div class="product_block_splide fav_product_block_splide">
 
                     <div class="fav_block">
@@ -66,6 +60,7 @@
 
                 </a>
             </div>
+    {% endfor %}
         </div>
 
 
@@ -76,4 +71,3 @@
 
     </div>
 </a>
-{% endfor %}

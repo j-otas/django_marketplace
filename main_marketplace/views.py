@@ -61,6 +61,19 @@ def product_list(request):
 
     return render(request, 'main_marketplace/product_list.html', context)
 
+def category(request, main_category_id):
+    main_category = MainCategory.objects.get(id = main_category_id)  # id
+    context = {}
+    print(main_category_id)
+    if request.method == "GET":
+        is_main = False
+        product_list = Product.objects.filter(
+            Q(main_category_id=main_category_id),
+            city=get_sel_city(request),
+            is_active=True)
+        context['products'] = product_list
+        context['main_category'] = MainCategory.objects.get(id=main_category_id)
+        return render(request, 'main_marketplace/search_result.html', context)
 def search_results_list(request):
     context = {}
     context['category'] = ''
@@ -184,7 +197,8 @@ def delete_product(request, product_id):
 
 def product_edit(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
-
+    if product.author.id != request.user.id:
+        return HttpResponse("Нельзя редактировать чужие объявления")
     if request.method == "POST":
         form = ProductForm(request.POST,request.FILES, instance=product)
         if form.is_valid():

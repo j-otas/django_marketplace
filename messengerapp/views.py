@@ -17,7 +17,6 @@ class DialogsView(TemplateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         data = super(DialogsView, self).get_context_data()
         data['chats'] = Chat.objects.filter(members__in=[self.request.user.id])
-
         return data
 
 
@@ -77,12 +76,14 @@ class EditChatView(UpdateView):
 
 
 def create_dialog(request, sobesednik_id, product_id):
+    priduct = Product.objects.get(id = product_id)
     duplicate = Chat.objects.filter(members__id__contains=sobesednik_id) & \
-                Chat.objects.filter(members__id__icontains=request.user.pk)
+                Chat.objects.filter(members__id__icontains=request.user.pk) & \
+                Chat.objects.filter(product=priduct)
     if duplicate.exists():
         return redirect(reverse('messenger:messages', kwargs={'chat_id': duplicate[0].pk}))
 
-    chat = Chat.objects.create(product = Product.objects.get(id = product_id))
+    chat = Chat.objects.create(product = priduct)
     members = Account.objects.filter(pk__in=[sobesednik_id, request.user.pk])
     chat.members.add(*members)
     return redirect(reverse('messenger:messages', kwargs={'chat_id': chat.pk}))

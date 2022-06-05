@@ -35,7 +35,7 @@ class Chat(models.Model):
         return qs
 
     def __str__(self):
-        return f'{self.type} - {self.members.all()}'
+        return f'{self.members.all()}'
 
 
 class Message(models.Model):

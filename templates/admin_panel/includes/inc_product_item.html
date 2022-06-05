@@ -1,0 +1,14 @@
+{% load static %}
+<div class="blog-card">
+    <div class="detail_img pt-0">
+        <img src={{ product.image.url }}>
+    </div>
+    <div class="description">
+        <h1>{{ product.title|linebreaksbr }}</h1>
+        <h2>Автор:{{ product.author|linebreaksbr }}</h2>
+        <h3>Описание:{{ product.description }}</h3>
+        <p class="read-more">
+            <a href="{% url 'marketplace1:product_detail' pk=product.pk %}">Подробнее</a>
+        </p>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="table_block">
+    <table class="table table-bordered table-hover table-dark">
+        <thead>
+        <tr>
+            <th class="functions-table" scope="col">
+                Действия
+            </th>
+            {% for field in fields %}
+            <th scope="col">{{ field.name }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for obj in values_of_fields %}
+        <tr>
+            <td class="functions-table">
+                <form method="POST" class="d-flex mt-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="object_id" value="{{ obj.0 }}">
+                    <input type="hidden" name="tab_id" value="{{ tabnum }}">
+                    <button id="show_change_modal" type="button" data-url="{% url 'admin_panel:admin_current_table' pk=tabnum %}"
+                            name="send_object_data" class="btn btn-primary">Редактировать
+                    </button>
+                    <button id="deleteButton" type="button" data-url="{% url 'admin_panel:delete_object'%}"
+                            name="deleteButton" class="btn btn-danger">Удалить
+                    </button>
+                </form>
+
+            </td>
+
+            {% for value in obj %}
+            <td>{{ value }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>

@@ -23,5 +23,6 @@ urlpatterns = [
     path('auth/', include('authorization.urls')),
     path('personal_page/', include('personal_page.urls')),
     path('dialogs/', include('messengerapp.urls')),
+    path('admin_panel/', include('admin_panel.urls')),
     path('admin/', admin.site.urls),
 ]+ static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

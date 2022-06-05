@@ -26,7 +26,7 @@ class Personal (View):
 
 def personal_edit(request,user_id):
     cur_user = Account.objects.get(pk=user_id)
-    if cur_user.id != user_id:
+    if user_id != request.user.id:
         return HttpResponse("Нельзя редактировать чужие аккаунты")
     else:
         if request.method == "POST":
