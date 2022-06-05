@@ -20,10 +20,12 @@
             <div class="bio_container">
                 <h3>{{ cur_user.first_name }}</h3>
                 <p>Дата регистрации: {{ cur_user.date_joined.day }}.{{ cur_user.date_joined.month }}.{{ cur_user.date_joined.year }}</p>
-                <a href="{% url "personal_page:personal_edit" user_id=cur_user.id %}">
-                    <div class="fas fa-cog" aria-hidden="true"></div>
-                    <span>Редактировать</span>
-                </a>
+                {% if cur_user == user %}
+                    <a href="{% url "personal_page:personal_edit" user_id=cur_user.id %}">
+                        <div class="fas fa-cog" aria-hidden="true"></div>
+                        <span>Редактировать</span>
+                    </a>
+                {% endif %}
             </div>
 
         </div>
@@ -34,7 +36,7 @@
     </div>
     <div class="profile_products_container">
         <div class="profile_products_block">
-            <h3>Активные объявления</h3>
+            <h3>Активные объявления ({{ user_active_products|length }})</h3>
             {% for product in user_active_products%}
                 <div class="profile_product_block">
                     <div class="product_block_splide profile_product_block_splide">
@@ -65,7 +67,7 @@
             {% endfor %}
         </div>
         <div class="profile_products_block">
-            <h3>Архив объявлений</h3>
+            <h3>Архив объявлений ({{ user_unactive_products|length }})</h3>
             {% for product in user_unactive_products%}
                 <div class="profile_product_block">
                     <div class="product_block_splide profile_product_block_splide">

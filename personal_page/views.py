@@ -39,7 +39,7 @@ def personal_edit(request,user_id):
                     cur_user.avatar = 'users_avatars/' + str(request.FILES['avatar'])
                 else:
                     print(form.instance.avatar)
-                    cur_user.avatar = 'users_avatars/default.png'
+                    cur_user.avatar = form.instance.avatar
                 cur_user.save()
                 return redirect('personal_page:personal_page', user_id=cur_user.pk)
         if request.method == "GET":

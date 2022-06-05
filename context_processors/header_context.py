@@ -8,10 +8,17 @@ def main_categories(request):
 def categories(request):
     return {'categories': SubCategory.objects.all()}
 
+def full_categories(request):
+    full_categories = { }
+
+    for main in MainCategory.objects.all():
+        full_categories[main] = SubCategory.objects.filter(main_category = main)
+
+    return {'full_categories':  full_categories}
+
 def selected_city(request):
     try:
         if (request.session['selected_city_id']):
-            print("YAAAAA TUT BIIIIIL")
             selected_city = get_object_or_404(City, id = request.session['selected_city_id'])
         else:
             select_city_id = get_object_or_404(City, name="Иркутск").id

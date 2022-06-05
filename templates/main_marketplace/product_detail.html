@@ -6,7 +6,11 @@
     <div class="header_controls glavnaya">
         <a href="{%url 'main_marketplace:product_list' %}">Главная</a>
     </div>
-    {% if not product.is_active %}
+    {% if not product.is_moderated %}
+        <div style="color: red" class="product_title">
+            <h2>Данное объявление ещё не прошло модерацию</h2>
+        </div>
+    {% elif not product.is_active %}
         <div style="color: red" class="product_title">
             <h2>Данное объявление находится в архиве</h2>
         </div>

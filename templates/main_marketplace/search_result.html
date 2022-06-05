@@ -8,7 +8,7 @@
     <div class="all_products_container">
         <div class="products_block">
         <h2>Результаты поиска</h2>
-        <p>Категория: {{ category }}</p>
+        <p>Категория:{% if main_category %} {{ main_category }}{% endif %}/{% if category %}{{ category }}{% else %}Все{% endif %}</p>
             {% for product in products%}
                 <div class="product_block_splides">
                     <div class="product_block_splide">

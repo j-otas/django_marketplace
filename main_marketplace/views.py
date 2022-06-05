@@ -58,32 +58,56 @@ def product_list(request):
     context['products'] = products
     context['besplatno'] = besplatno
     context['s_products'] = s_products
+
     return render(request, 'main_marketplace/product_list.html', context)
 
 def search_results_list(request):
     context = {}
     context['category'] = ''
-    if request.GET.get('category') != '-1':
-        context['category'] = SubCategory.objects.get(id = request.GET.get('category'))
-    else:
-        context['category'] = "Любая"
+
     if request.method == "GET":
         search_text = request.GET.get('search_text')
-        category = request.GET.get('category')
+        category = json.loads(request.GET.get('category'))
+        main_category = category[0] #id
+        category = category[1] #id
+        is_main = False #поиск только по главной категории
+        if category == '-2':
+            is_main = True
 
-        if category == '-1' :
+        if category != '-1' and not is_main:
+            context['category'] = SubCategory.objects.get(id=category)
+
+        if category == '-1' : #Любая категория
             product_list = Product.objects.filter(Q(title__icontains=search_text),
-                                                  city = get_sel_city(request))
+                                                  city = get_sel_city(request),
+                                                  is_active = True)
             context['products'] = product_list
-        elif search_text == None:
-            product_list = Product.objects.filter(
-                Q(category_id=category),
-                city = get_sel_city(request))
+        elif search_text == '': #С категорией но без текста
+            if is_main: #Главная категория
+                product_list = Product.objects.filter(
+                    Q(main_category_id = main_category),
+                    city = get_sel_city(request),
+                    is_active = True)
+            else:
+                product_list = Product.objects.filter(
+                    Q(category_id=category),
+                    city=get_sel_city(request),
+                    is_active=True)
             context['products'] = product_list
+            context['main_category'] = MainCategory.objects.get(id=main_category)
         else:
-            product_list = Product.objects.filter(
-                Q(title__icontains=search_text) & Q(category_id=category), city = get_sel_city(request), is_active = True)
+            if is_main: #Главная категория
+                product_list = Product.objects.filter(
+                    Q(title__icontains=search_text) & Q(main_category_id = main_category),
+                    city = get_sel_city(request),
+                    is_active = True)
+            else:
+                product_list = Product.objects.filter(
+                    Q(title__icontains=search_text) & Q(category_id=category),
+                    city=get_sel_city(request),
+                    is_active=True)
             context['products'] = product_list
+            context['main_category'] = MainCategory.objects.get(id=main_category)
 
         return render(request, 'main_marketplace/search_result.html', context)
 

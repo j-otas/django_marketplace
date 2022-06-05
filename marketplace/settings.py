@@ -64,6 +64,7 @@ TEMPLATES = [
                 'context_processors.header_context.categories',
                 'context_processors.header_context.selected_city',
                 'context_processors.header_context.all_cities',
+                'context_processors.header_context.full_categories',
             ],
         },
     },

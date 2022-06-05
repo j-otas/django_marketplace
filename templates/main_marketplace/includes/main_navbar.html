@@ -50,19 +50,36 @@
 		    <img src={% static 'img/logo.png' %}></a>
 		</div>
 
+{#            {{% for ke in key %}#}
+{#                {{ ke }}#}
+{#            {% endfor %}#}
 		<form action="{% url 'main_marketplace:search_results' %}" , method="GET",
               style="
               width: 100%;
               display: contents;">
             <div class="header_category">
                 <select name='category' type="button">
-                    <option selected="" value="-1" data-marker="option">Любая категория</option>
-                    {{ categories }}
-                    {% for category in categories %}
-                        <option value={{ category.id }} class="category-select-group-H5Ufe" data-marker="category-{{ category.id }}">
-                            {{ category }}
-                        </option>
+                    {% if category %}
+                        <option value='[ "-1", "-1" ]' data-marker="option">Любая категория</option>
+                        <option selected="" value='[ "{{main_category.id}}", "{{category.id}}" ]' data-marker="option">{{ category }}</option>
+                    {% elif main_category %}
+                        <option value='[ "-1", "-1" ]' data-marker="option">Любая категория</option>
+                        <option selected="" value='[ "{{main_category.id}}", "{{category.id}}" ]' data-marker="option">{{ main_category }}</option>
+                    {% else %}
+                        <option selected="" value='[ "-1", "-1" ]' data-marker="option">Любая категория</option>
+                    {% endif %}
+
+                    {% for main, sub in full_categories.items %}
+                        <option value = '[ "{{main.id}}", "-2" ]' class="category-select-group-H5Ufe" data-marker="main_category-{{ main.id }}">{{ main }}</option>
+                        {% for sub_name in sub %}
+                             <option value = '[ "{{main.id}}", "{{ sub_name.id }}" ]'  mainValue = {{ main.id }} class = "sub_category_option" data-marker="category-{{ sub_name.id }}" >{{ sub_name }}</option>
+                        {% endfor %}
                     {% endfor %}
+{#                    {% for category in categories %}#}
+{#                        <option value={{ category.id }} class="category-select-group-H5Ufe" data-marker="category-{{ category.id }}">#}
+{#                            {{ category }}#}
+{#                        </option>#}
+{#                    {% endfor %}#}
                 </select>
             </div>
             <div class="header_search">

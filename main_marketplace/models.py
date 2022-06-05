@@ -44,7 +44,7 @@ class Product(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название")
 
     category = models.ForeignKey(SubCategory, related_name = "products", on_delete = models.CASCADE)
-
+    main_category = models.ForeignKey(MainCategory, related_name = 'main_category_product', on_delete=models.CASCADE, default = None, null = True, blank = True)
     address = models.CharField(max_length=200, verbose_name="Адрес")
     description = models.TextField(verbose_name="Описание")
     published_date = models.DateTimeField(blank=True, null=True)
@@ -62,6 +62,16 @@ class Product(models.Model):
     def __str__(self):
         return self.category.main_category.name +"-"+self.title
 
+    def save(self, *args, **kwargs):
+        print("ФУНКЦИЯ СОЗДАНИЯЯЯ")
+        self.main_category = self.category.main_category
+        super(Product, self).save(*args, **kwargs)
+
+    @classmethod
+    def create(new_product):
+        print("ФУНКЦИЯ СОЗДАНИЯЯЯ")
+        book = new_product(main_category = new_product.category.main_category)
+        return book
     # def delete(self, *args, **kwargs):
     #     self.image.delete()
     #     super(Product, self).delete(*args, **kwargs)
