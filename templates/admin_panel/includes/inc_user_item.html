@@ -1,14 +1,54 @@
 {% load static %}
-<div class="blog-card">
-    <div class="detail_img pt-0">
-        <img src={{ acc.avatar.url }}>
+{#<div class="blog-card">#}
+{#    <div class="detail_img pt-0">#}
+{#        <img src={{ acc.avatar.url }}>#}
+{#    </div>#}
+{#    <div class="description">#}
+{#        <h1>Ник:{{ acc.username|linebreaksbr }}</h1>#}
+{#        <h2>Имя-Фамилия: {{ acc.first_name|linebreaksbr }}-{{ acc.last_name|linebreaksbr }}</h2>#}
+{#        <h3>Город:{{ acc.country }}</h3>#}
+{#        <p class="read-more">#}
+{#            <a href="{% url 'personal_page:personal_page' acc.pk %}">Подробнее</a>#}
+{#        </p>#}
+{#    </div>#}
+{#</div>#}
+<div class="profile_product_block-{{ product.product.pk }}">
+        <div class="product_block_splide fav_product_block_splide">
+            <a href="{% url 'personal_page:personal_page' acc.id %}">
+                <div class="fav_block">
+                    <div class="fav_product_block_image_block profile_product_block_image_block">
+                        <img src={{ acc.avatar.url }}>
+                    </div>
+                    <div class="fav_block_description_block fav_name">
+                        <div class="fav_product_block_cost">
+                            <div class="description_cost">
+                                Имя-Фамилия: {{ acc.first_name|linebreaksbr }}-{{ acc.last_name|linebreaksbr }}
+                            </div>
+                            <div class="description_cost description_city">
+                                <h3>Город:{{ acc.city }}</h3>
+                            </div>
+                            <div class="description_cost description_city">
+                                {{ product.product.address }}
+                            </div>
+                        </div>
+                        <div >
+                            <a class="no_decoration" href="#">
+                                <div class="fav_contact_block_btn">
+                                    <p>Написать продавцу</p>
+                                </div>
+                            </a>
+                            <div class="contact_card_phone_block">
+                                    <p>123123LOL</p>
+                                <a href="{% url 'personal_page:personal_page' acc.pk %}">Подробнее</a>
+                            </div>
+                            <div class="fav_a_delete">
+{#                                <a class="favorit_list_delete-{{ product.product.pk }}" onclick="delete_favorite_list({{ product.product.pk }})" data-url="{% url 'main_marketplace:delete_from_favorit_list' pk=product.product.pk %}" style="color: #da634e;" href="#">Удалить</a>#}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </a>
+        </div>
     </div>
-    <div class="description">
-        <h1>Ник:{{ acc.username|linebreaksbr }}</h1>
-        <h2>Имя-Фамилия: {{ acc.first_name|linebreaksbr }}-{{ acc.last_name|linebreaksbr }}</h2>
-        <h3>Город:{{ acc.country }}</h3>
-        <p class="read-more">
-            <a href="{% url 'personal_page:personal_page' acc.pk %}">Подробнее</a>
-        </p>
-    </div>
-</div>

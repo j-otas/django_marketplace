@@ -11,7 +11,8 @@ from main_marketplace.models import Product
 from django.contrib import messages
 
 
-
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 class Counter:
     count = 0
 
@@ -136,6 +137,8 @@ def accept_change_data(request):
         form = temp_form(request.POST, instance=obj)
         if form.is_valid():
             obj = form.save(commit=False)
+            if selected_model == Account:
+                obj.set_password(form.cleaned_data['password'])
             obj.save()
         values_of_fields = get_values_of_objects(selected_model_objects, selected_model_fields)  # значения объекта
         context['selected_model_name'] = selected_model._meta.verbose_name
@@ -173,6 +176,7 @@ def add_modal_form(request):
 @csrf_exempt
 def accept_add_data(request):
     if request.method == "POST":
+        print("Я работаю")
         context = {}
         selected_model = get_model(int(request.POST.get('tab_id')))  # выбранная пользователем модель(тип данных)
 
@@ -186,6 +190,7 @@ def accept_add_data(request):
 
         temp_form = modelform_factory(selected_model, fields=field_names)
         form = temp_form(request.POST)
+
         if form.is_valid():
             obj = form.save(commit=False)
             print('форма валидная')
@@ -249,11 +254,11 @@ class ModerateProductList(ListView):
         data = {'products': Product.objects.filter(is_moderated=False)}
         return data
 def accept_moderate_product(request, pk):
-    if request.is_ajax():
+    if is_ajax(request):
         Product.objects.filter(pk=pk).update(is_moderated=True)
         return JsonResponse({'result': 'success'})
 def cancel_moderate_product(request, pk):
-    if request.is_ajax():
+    if is_ajax(request):
         Product.objects.filter(pk=pk).delete()
         return JsonResponse({'result': 'success'})
 
@@ -265,10 +270,10 @@ class ModerateUserList(ListView):
         data = {'accs': Account.objects.filter(is_moderated=False, is_superuser=False, is_admin=False, is_staff=False)}
         return data
 def accept_moderate_user(request, pk):
-    if request.is_ajax():
+    if is_ajax(request):
         Account.objects.filter(pk=pk).update(is_moderated=True)
         return JsonResponse({'result': 'success'})
 def cancel_moderate_user(request, pk):
-    if request.is_ajax():
+    if is_ajax(request):
         Account.objects.filter(pk=pk).delete()
         return JsonResponse({'result': 'success'})

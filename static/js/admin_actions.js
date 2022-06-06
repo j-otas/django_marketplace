@@ -16,7 +16,7 @@ $('body').on('click', '#show_change_modal', function (event) {
 $('body').on('click', '#acceptButton', function (event) {
     let $form = $('#edit_form');
     $.ajax({
-        url: '/admin1/accept_data',
+        url: '/admin_panel/accept_data',
         type: "POST",
         data: $form.serialize(),
         dataType: "html",
