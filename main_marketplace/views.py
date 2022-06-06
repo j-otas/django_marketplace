@@ -20,9 +20,9 @@ register = template.Library()
 def get_sel_city(request):
     selected_city = City
     try:
-        selected_city = get_object_or_404(City, id=request.session['selected_city_id'])
+        selected_city = City.objects.get(id=request.session['selected_city_id'])
     except:
-        selected_city = get_object_or_404(City, name="Иркутск")
+        selected_city, created = City.objects.get_or_create(name="Иркутск")
     print("Выбранный город", selected_city)
     return selected_city
 
@@ -31,7 +31,7 @@ def is_ajax(request):
 
 def select_city(request, city_id):
     if request.method == "POST":
-        request.session['selected_city_id'] = get_object_or_404(City, id = city_id ).id
+        request.session['selected_city_id'] = City.objects.get(id = city_id ).id
         return HttpResponse('')
 
 

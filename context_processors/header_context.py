@@ -18,18 +18,20 @@ def full_categories(request):
 
 def selected_city(request):
     try:
-        if (request.session['selected_city_id']):
-            selected_city = get_object_or_404(City, id = request.session['selected_city_id'])
+        if City.objects.get(id = request.session['selected_city_id']):
+            selected_city, created = City.objects.get_or_create(id = request.session['selected_city_id'])
         else:
-            select_city_id = get_object_or_404(City, name="Иркутск").id
+            select_city_id, created = City.objects.get_or_create(name="Иркутск")
+            select_city_id = select_city_id.id
             request.session["selected_city_id"] = select_city_id
-            selected_city = get_object_or_404(City, id=request.session['selected_city_id'])
+            selected_city = City.objects.get( id=select_city_id)
         return {'selected_city': selected_city}
     except:
         print("ВЫБРАННОГО ГОРОДА НЕТ -- БУДЕТ ОТОБРАЖЕН ИРКУТСК")
-        select_city_id = get_object_or_404(City, name="Иркутск").id
+        select_city_id, created = City.objects.get_or_create( name="Иркутск")
+        select_city_id = select_city_id.id
         request.session["selected_city_id"] = select_city_id
-        selected_city = get_object_or_404(City, id=request.session['selected_city_id'])
+        selected_city = City.objects.get( id=request.session['selected_city_id'])
         return {'selected_city': selected_city}
 
 def all_cities(request):
