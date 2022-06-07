@@ -1,4 +1,13 @@
-$('body').on('click', '#show_change_modal', function (event) {
+function setEventEnterOnInputs(a){
+    $(document).on("keypress", "input", function(e){
+        if(e.which == 13){
+            event.preventDefault();
+            document.getElementById("acceptAddButton").click();
+        }
+    });
+}
+
+$('body').on('click', '#show_change_modal', function (event) { //Окно редактирования
     let $form = $(event.currentTarget).parent();
     var edit_form = $("#edit_form");
     $.ajax({
@@ -13,7 +22,7 @@ $('body').on('click', '#show_change_modal', function (event) {
         }
     });
 });
-$('body').on('click', '#acceptButton', function (event) {
+$('body').on('click', '#acceptButton', function (event) { //Кнопка отправки формы
     let $form = $('#edit_form');
     $.ajax({
         url: '/admin_panel/accept_data',
@@ -40,7 +49,7 @@ $('body').on('click', '#deleteButton', function (event) {
         }
     });
 });
-$('body').on('click', '#addButton', function (event) {
+$('body').on('click', '#addButton', function (event) { //Кнопка добавить объект
     let $form = $(event.currentTarget).parent();
     $.ajax({
         url: $('#addButton').attr('data-url'),
@@ -50,7 +59,8 @@ $('body').on('click', '#addButton', function (event) {
 
         success: function (response) {
             $("#modal_add_window").html(JSON.parse(response)['result']);
-            $('#addModal').modal("show")
+            $('#addModal').modal("show");
+            setEventEnterOnInputs($("#modal_add_window"));
 
 
         }
