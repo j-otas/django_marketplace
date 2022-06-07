@@ -50,9 +50,9 @@
             {{form.errors}}
             <div class="buttons_block">
                 <input type="submit" class="b-form__submit b-form__submit_white b-form__submit_margins accept_button"
-                   value="Опубликовать">
+                   value="Сохранить">
 
-                <a class="no_decoration" href="{%url 'main_marketplace:product_list' %}">
+                <a class="no_decoration" href="{%url 'personal_page:personal_page' user.id %}">
                     <div class="cancel_button">
                         <p>Отмена</p>
                     </div>

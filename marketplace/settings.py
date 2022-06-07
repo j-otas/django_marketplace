@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'channels',
     'account',
+    'admin_panel',
+    'authorization',
     'main_marketplace',
     'personal_page',
     'messengerapp',

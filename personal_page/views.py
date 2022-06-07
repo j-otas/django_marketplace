@@ -19,10 +19,12 @@ class Personal (View):
         cur_user = Account.objects.get(pk=account_pk)
         # if cur_user:
         user_active_products = Product.objects.filter(author=cur_user, is_active = True)
-        user_unactive_products = Product.objects.filter(author=cur_user, is_active = False)
+        user_unactive_products = Product.objects.filter(author=cur_user, is_active = False, is_moderated = True)
+        user_unmoderate_products = Product.objects.filter(author=cur_user, is_active = False, is_moderated = False)
         return render(self.request, 'personal_page/personal_page.html', {'cur_user': cur_user,
                                                                          'user_active_products': user_active_products,
-                                                                         'user_unactive_products': user_unactive_products,})
+                                                                         'user_unactive_products': user_unactive_products,
+                                                                         'user_unmoderate_products': user_unmoderate_products,})
 
 def personal_edit(request,user_id):
     cur_user = Account.objects.get(pk=user_id)

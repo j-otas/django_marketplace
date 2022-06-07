@@ -1,0 +1,7 @@
+{% load static %}
+<option value="">Выберите категорию</option>
+{% if selected_categories %}
+    {% for ctg in selected_categories %}
+    <option value="{{ ctg.id }}">{{ ctg.name }}</option>
+    {% endfor %}
+{% endif %}

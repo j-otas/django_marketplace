@@ -28,7 +28,7 @@
                         <a href= '{% url 'admin_panel:admin_main' %}'>Администрирование</a>
                     {% endif %}
                     {% if user.is_staff %}
-                        <a href= '#'>Модерирование</a>
+                        <a href= '{% url 'admin_panel:moderate_product' %}'>Модерирование</a>
                     {% endif %}
                     <a href="#">О нас</a>
 

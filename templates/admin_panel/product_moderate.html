@@ -18,7 +18,7 @@
             {% for product in products %}
             <div id="product_block-{{product.id}}"
                  class="moderate_product_block d-flex align-items-center news-moderate_wrap">
-                {% include 'includes/inc_product_item.html' %}
+                {% include 'admin_panel/includes/inc_product_item.html' %}
                 <div class="product-moderate_btns">
                     <button onclick="accept_product({{ product.pk }})"
                             class="accept_product_button btn btn-outline-success"

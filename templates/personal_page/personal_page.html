@@ -35,6 +35,39 @@
         </div>
     </div>
     <div class="profile_products_container">
+        {% if cur_user.id == user.id %}
+        <div class="profile_products_block">
+            <h3>Ожидают публикации ({{ user_unmoderate_products|length }})</h3>
+            {% for product in user_unmoderate_products%}
+                <div class="profile_product_block">
+                    <div class="product_block_splide profile_product_block_splide">
+                        <a href="{% url 'main_marketplace:product_detail' product_id=product.pk %}">
+                            <div class="product_block_image_block profile_product_block_image_block">
+                                {% if product.image %}
+                                    <img src ="{{ product.image.url }}">
+                                {% else %}
+                                    <img src ="{% static 'img/no_image_product.jpg' %}">
+                                {% endif %}
+                            </div>
+                            <div class="product_block_description_block">
+                                <div class="product_block_name">
+                                    {{ product.title }}
+                                </div>
+                                <div class="product_block_cost">
+                                    <div class="description_cost">
+                                        {{ product.cost }}
+                                    </div>
+                                    <div>
+                                        ₽
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
         <div class="profile_products_block">
             <h3>Активные объявления ({{ user_active_products|length }})</h3>
             {% for product in user_active_products%}

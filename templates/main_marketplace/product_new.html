@@ -9,11 +9,29 @@
         </div>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <script>
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            </script>
             <div class="b-flex-wrap">
                 <div>
-                    <div class="form_input_block">
-                        <h4>Категория</h4>
-                        {{ form.category }}
+                    <div class="form_input_block_disp_flex">
+                        <div style="margin-right: 15px">
+                            <h4>Раздел</h4>
+                            <select required class="pub_razdel_select form_input">
+                                <option value="">Выберите раздел</option>
+                                {% for main_ctg in main_categories %}
+                                    <option value="{{ main_ctg.id }}" data-url="{% url 'main_marketplace:create_select_category' main_ctg.id %}">{{ main_ctg.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <h4>Категория</h4>
+                                <select name="category" class="pub_category_block form_input" placeholder="Category" required >
+                                    {% include 'main_marketplace/includes/inc_pub_category.html' %}
+                                </select>
+
+                        </div>
+
                     </div>
                     <div class="form_input_block">
                         <h4>Название</h4>

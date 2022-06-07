@@ -184,6 +184,16 @@ def product_create(request):
 
     return render(request, 'main_marketplace/product_new.html', context)
 
+def product_create_select_category(request, main_ctg_id):
+    if is_ajax(request):
+        try:
+            selected_categories = SubCategory.objects.filter(main_category__id = main_ctg_id)
+
+            result = render_to_string('main_marketplace/includes/inc_pub_category.html', {'selected_categories':selected_categories})
+            return JsonResponse({'result': result})
+        except:
+            return JsonResponse({'result': False})
+
 def delete_product(request, product_id):
     try:
         product = Product.objects.get(id=product_id)

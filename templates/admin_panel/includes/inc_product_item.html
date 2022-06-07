@@ -8,7 +8,7 @@
         <h2>Автор:{{ product.author|linebreaksbr }}</h2>
         <h3>Описание:{{ product.description }}</h3>
         <p class="read-more">
-            <a href="{% url 'marketplace1:product_detail' pk=product.pk %}">Подробнее</a>
+            <a href="{% url 'main_marketplace:product_detail' product_id=product.pk %}">Подробнее</a>
         </p>
     </div>
 </div>

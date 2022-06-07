@@ -10,6 +10,19 @@ $( ".city_select" ).change(function() {
     })
 });
 
+$( ".pub_razdel_select" ).change(function() {
+    $.ajax({
+        type: 'POST',
+        headers: {'X-CSRFToken': csrftoken},
+        url: $(this).find('option:selected').attr('data-url'),
+        success: function (response) {
+            if (response.result) {
+                $('.pub_category_block').html(response.result);
+            }
+        }
+    })
+});
+
 function put_favorite(pk) {
     $.ajax({
         url: $('.add_favorite').attr('data-url'),

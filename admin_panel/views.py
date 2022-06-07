@@ -9,10 +9,12 @@ from django.shortcuts import redirect
 from account.models import Account
 from main_marketplace.models import Product
 from django.contrib import messages
+from django.http import HttpResponse
 
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
 class Counter:
     count = 0
 
@@ -57,6 +59,8 @@ def get_values_of_objects(objects, object_fields):
 
 
 def main_admin_panel(request):
+    if not request.user.is_admin:
+        return HttpResponse("Нет доступа")
     mods = apps.get_models()  # все модели
     model_names = []
     for mod in mods:
@@ -245,7 +249,6 @@ def delete_object(request):
         result = render_to_string('admin_panel/includes/table_objects.html', context)
         return JsonResponse({'result': result})
 
-
 class ModerateProductList(ListView):
     model = Product
     template_name = 'admin_panel/product_moderate.html'
@@ -253,13 +256,15 @@ class ModerateProductList(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         data = {'products': Product.objects.filter(is_moderated=False)}
         return data
+
 def accept_moderate_product(request, pk):
     if is_ajax(request):
-        Product.objects.filter(pk=pk).update(is_moderated=True)
+        Product.objects.filter(pk=pk).update(is_moderated=True, is_active = True)
         return JsonResponse({'result': 'success'})
+
 def cancel_moderate_product(request, pk):
     if is_ajax(request):
-        Product.objects.filter(pk=pk).delete()
+        Product.objects.filter(pk=pk).update(is_moderated=True, is_active = False)
         return JsonResponse({'result': 'success'})
 
 class ModerateUserList(ListView):
@@ -269,10 +274,12 @@ class ModerateUserList(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         data = {'accs': Account.objects.filter(is_moderated=False, is_superuser=False, is_admin=False, is_staff=False)}
         return data
+
 def accept_moderate_user(request, pk):
     if is_ajax(request):
         Account.objects.filter(pk=pk).update(is_moderated=True)
         return JsonResponse({'result': 'success'})
+
 def cancel_moderate_user(request, pk):
     if is_ajax(request):
         Account.objects.filter(pk=pk).delete()

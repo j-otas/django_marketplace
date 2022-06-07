@@ -19,7 +19,7 @@
                                                     )" class="b-user-img_small"></div>
                             {{ member.first_name }}
                         </a>
-                            <a>
+                            <a href="{% url 'main_marketplace:product_detail' chat.product.id %}">
                             {{ chat.product.title }}
                             </a>
                         {% endif %}
