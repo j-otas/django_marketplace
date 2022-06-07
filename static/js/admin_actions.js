@@ -1,8 +1,8 @@
-function setEventEnterOnInputs(a){
-    $(document).on("keypress", "input", function(e){
+function setEventEnterOnInputs($a){
+    $a.on("keypress", "input", function(e){
         if(e.which == 13){
             event.preventDefault();
-            document.getElementById("acceptAddButton").click();
+            $a.find("button").click();
         }
     });
 }
@@ -19,6 +19,7 @@ $('body').on('click', '#show_change_modal', function (event) { //Окно ред
         success: function (response) {
             $("#modal_window").html(JSON.parse(response)['result']);
             $('#exampleModal').modal("show");
+            setEventEnterOnInputs($("#exampleModal"));
         }
     });
 });
