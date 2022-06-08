@@ -7,33 +7,24 @@
 <link rel="stylesheet" href="{% static 'css/admin_panel.css' %}">
 {% endblock %}
 
+
+
 {% block content %}
-<a class="list-group-item list-group-item-action bg-info text-dark"
-       href="{% url 'admin_panel:admin_main' %}">Назад</a>
+    <div class="header_controls glavnaya">
+    <a href="{% url 'admin_panel:admin_main' %}">Назад</a>
+</div>
+<div class="product_title" style="margin-bottom: 15px;">
+    <h2>Модерация пользователей</h2>
+</div>
+
+
 <div class="container content">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <h2 class="text-center">Модерация пользователей</h2>
-
             {% for acc in accs %}
             <div id="user_block-{{acc.id}}"
                  class="moderate_user_block d-flex align-items-center news-moderate_wrap">
                 {% include 'admin_panel/includes/inc_user_item.html' %}
-                <div class="acc-moderate_btns">
-                    <button onclick="accept_user({{ acc.pk }})"
-                            class="accept_user_button btn btn-outline-success"
-                            data-url="{% url 'admin_panel:accept_moderate_user' pk=acc.id%}">
-                        OK
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                    </button>
-
-                    <button onclick="cancel_user({{ acc.pk }})"
-                            class="cancel_user_button btn btn-outline-danger"
-                            data-url="{% url 'admin_panel:cancel_moderate_user' pk=acc.id%}">
-                        X
-                        <i class="fa fa-ban" aria-hidden="true"></i>
-                    </button>
-                </div>
             </div>
             {% endfor %}
 

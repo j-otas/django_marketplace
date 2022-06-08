@@ -123,9 +123,11 @@ def admin_current_table(request, pk):
 def accept_change_data(request):
     if request.method == 'POST':
         context = {}
+        old_pswd = ''
         selected_model = get_model(int(request.POST.get('tab_id')))  # выбранная пользователем модель(тип данных)
         obj = get_object_or_404(selected_model,
                                 pk=int(request.POST.get('object_id')))  # получаем объект выбранной модели
+
         selected_model_objects = selected_model.objects.order_by(
             'id')  # все объекты выбранного типа данных отсортированные по id
 
@@ -137,12 +139,14 @@ def accept_change_data(request):
 
         temp_form = modelform_factory(selected_model,
                                       fields=field_names)
-
+        if selected_model == Account:
+            old_pswd =  obj.password
         form = temp_form(request.POST, instance=obj)
         if form.is_valid():
             obj = form.save(commit=False)
             if selected_model == Account:
-                obj.set_password(form.cleaned_data['password'])
+                if old_pswd != form.cleaned_data['password']:
+                    obj.set_password(form.cleaned_data['password'])
             obj.save()
         values_of_fields = get_values_of_objects(selected_model_objects, selected_model_fields)  # значения объекта
         context['selected_model_name'] = selected_model._meta.verbose_name
@@ -249,6 +253,45 @@ def delete_object(request):
         result = render_to_string('admin_panel/includes/table_objects.html', context)
         return JsonResponse({'result': result})
 
+
+def set_users_roles(request):
+    if request.method == "GET":
+        context = {}
+        users = Account.objects.all().values()
+
+        context['users'] = users
+        return render(request, 'admin_panel/set_users_roles.html', context)
+    elif is_ajax(request):
+        context = {}
+        usr_id = request.POST['user_id']
+        usr = Account.objects.get(id = usr_id)
+        if request.POST.get('is_staff', False):
+            usr.is_staff = True
+        else:
+            usr.is_staff = False
+
+        if request.POST.get('is_admin', False):
+            usr.is_admin = True
+        else:
+            usr.is_admin = False
+        if request.POST.get('is_superuser', False):
+            usr.is_superuser = True
+        else:
+            usr.is_superuser = False
+        usr.save()
+
+
+        users = Account.objects.all().values()
+        context['users'] = users
+        print(context['users'])
+        result = render_to_string('admin_panel/includes/user_tables_roles.html', context)
+        return JsonResponse({'result': result})
+    elif request.method == "POST":
+        print()
+        return HttpResponse("Тут логика выдачи")
+    else:
+        return HttpResponse("Чёто пошло не так")
+
 class ModerateProductList(ListView):
     model = Product
     template_name = 'admin_panel/product_moderate.html'
@@ -282,5 +325,5 @@ def accept_moderate_user(request, pk):
 
 def cancel_moderate_user(request, pk):
     if is_ajax(request):
-        Account.objects.filter(pk=pk).delete()
+        Account.objects.filter(pk=pk).update(is_moderated=True, is_active = False)
         return JsonResponse({'result': 'success'})

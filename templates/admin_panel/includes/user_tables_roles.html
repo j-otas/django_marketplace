@@ -1,0 +1,51 @@
+{% load static %}
+<table class="table table-bordered table-hover table-dark">
+            <thead>
+            <tr>
+                <th class="functions-table" scope="col">
+                    Роли
+                </th>
+                {% if users %}
+                    {% for field in users.0 %}
+                        <th scope="col">{{field}}</th>
+                    {% endfor %}
+                {% else %}
+                    Пользователей нет
+                {% endif %}
+
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for usr in users %}
+                <tr>
+                    <td class="functions-table">
+                        <form method="POST" action="{% url 'admin_panel:set_users_roles' %}" class="d-flex mt-2">
+                            <div>
+                                <input type="hidden" name="user_id" value="{{ usr.id }}">
+                                <div>
+                                    <input type="checkbox" id="is_staff" name="is_staff"  {% if usr.is_staff %} checked {% endif %}>
+                                    <label style="color: ghostwhite" for="coding">Модератор</label>
+                                </div>
+                                <div>
+                                    <input  type="checkbox" id="is_admin" name="is_admin"  {% if usr.is_admin %} checked {% endif %}>
+                                    <label style="color: ghostwhite" for="music">Админ</label>
+                                </div>
+                                <div>
+                                    <input  type="checkbox" id="is_superuser" name="is_superuser" {% if usr.is_superuser %} checked {% endif %}>
+                                    <label style="color: indianred" for="music">Суперпользователь</label>
+                                </div>
+                                <button id="set_role_btn" type="button" data-url="{% url 'admin_panel:set_users_roles' %}"
+                                        name="send_object_data" class="btn btn-primary">Сохранить
+                                </button>
+                            </div>
+                        </form>
+                    </td>
+                    {% for field, value in usr.items %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>

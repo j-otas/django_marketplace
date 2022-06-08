@@ -7,7 +7,7 @@ function setEventEnterOnInputs($a){
     });
 }
 
-$('body').on('click', '#show_change_modal', function (event) { //Окно редактирования
+$('body').on('click', '#show_change_modal', function (event) { //Кнопка "Редактировать"
     let $form = $(event.currentTarget).parent();
     var edit_form = $("#edit_form");
     $.ajax({
@@ -23,7 +23,7 @@ $('body').on('click', '#show_change_modal', function (event) { //Окно ред
         }
     });
 });
-$('body').on('click', '#acceptButton', function (event) { //Кнопка отправки формы
+$('body').on('click', '#acceptButton', function (event) { //Кнопка отправки формы "Принять изменения"
     let $form = $('#edit_form');
     $.ajax({
         url: '/admin_panel/accept_data',
@@ -37,7 +37,7 @@ $('body').on('click', '#acceptButton', function (event) { //Кнопка отп�
         }
     });
 });
-$('body').on('click', '#deleteButton', function (event) {
+$('body').on('click', '#deleteButton', function (event) { //Кнопка "Удалить"
     let $form = $(event.currentTarget).parent();
     $.ajax({
         url: $('button[name="deleteButton"]').attr('data-url'),
@@ -93,6 +93,32 @@ $("body").on('click', '#acceptAddButton', function (event) {
         }
     });
 });
+
+$('body').on('click', '#set_role_btn', function (event) { //Кнопка "Установить роль"
+    let $form = $(event.currentTarget).closest("form");
+    $.ajax({
+        type: 'POST',
+        headers: {'X-CSRFToken': csrftoken},
+        url: $(this).attr("data-url"),
+        data: $form.serialize(),
+        dataType: "html",
+
+        success: function (response) {
+            $('.table_block').html(JSON.parse(response)['result']);
+        },
+        failed: function () {
+            console.log('ajax FAILED!');
+        }
+    });
+});
+
+
+$('.search_user_input').on('keyup', function(){
+    //Продолжить отсюда, начать с отправки запроса и выполнения поиска
+});
+
+
+
 
 function accept_product(pk) {
     $.ajax({

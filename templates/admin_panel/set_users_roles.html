@@ -1,0 +1,28 @@
+{% extends 'main_marketplace/base.html' %}
+{% load static %}
+{% block title %}Meto - Установить роль{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/admin_panel.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="header_controls glavnaya">
+    <a href="{% url 'admin_panel:admin_main' %}">Назад</a>
+</div>
+<div class="product_title" style="margin-bottom: 15px;">
+    <h2>Пользователи</h2>
+</div>
+    {% csrf_token %}
+        <script>
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        </script>
+    <div class="search_user_block header_search">
+        <input class = "search_user_input" type="text" name="search_user_text" placeholder="Поиск">
+        <button class="search_button" type="submit">
+            <div class="fas fa-search" aria-hidden="true"></div>
+        </button>
+    </div>
+    <div class="table_block">
+        {% include 'admin_panel/includes/user_tables_roles.html' %}
+    </div>
+
+{% endblock %}
