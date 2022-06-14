@@ -69,7 +69,10 @@ def main_admin_panel(request):
 
     counter = Counter()
 
-    return render(request, 'admin_panel/main_admin_list_page.html', {'table_names': model_names, 'counter': counter})
+    return render(request, 'admin_panel/main_admin_list_page.html', {'table_names': model_names,
+                                                                     'counter': counter,
+                                                                     'count_products': Product.objects.all().count(),
+                                                                     'count_users': Account.objects.all().count()})
 
 
 @csrf_exempt
@@ -316,13 +319,28 @@ class ModerateProductList(ListView):
 
 def accept_moderate_product(request, pk):
     if is_ajax(request):
-        Product.objects.filter(pk=pk).update(is_moderated=True, is_active = True)
-        return JsonResponse({'result': 'success'})
+        try:
+            Product.objects.filter(pk=pk).update(is_moderated=True, is_active = True)
+            products = Product.objects.filter(is_moderated = False)
+            context = {}
+            context ['products'] = products
+            result = render_to_string('admin_panel/includes/inc_product_item.html', context)
+            return JsonResponse({'result': result})
+        except Product.DoesNotExist:
+            return HttpResponseNotFound("<h2>Ошибка</h2>")
+
 
 def cancel_moderate_product(request, pk):
     if is_ajax(request):
-        Product.objects.filter(pk=pk).update(is_moderated=True, is_active = False)
-        return JsonResponse({'result': 'success'})
+        try:
+            Product.objects.filter(pk=pk).update(is_moderated=True, is_active = False)
+            products = Product.objects.filter(is_moderated=False)
+            context = {}
+            context['products'] = products
+            result = render_to_string('admin_panel/includes/inc_product_item.html', context)
+            return JsonResponse({'result': result})
+        except Product.DoesNotExist:
+            return HttpResponseNotFound("<h2>Ошибка</h2>")
 
 class ModerateUserList(ListView):
     model = Account
@@ -334,10 +352,24 @@ class ModerateUserList(ListView):
 
 def accept_moderate_user(request, pk):
     if is_ajax(request):
-        Account.objects.filter(pk=pk).update(is_moderated=True)
-        return JsonResponse({'result': 'success'})
+        try:
+            Account.objects.filter(pk=pk).update(is_moderated=True)
+            accs = Account.objects.filter(is_moderated=False, is_superuser=False, is_admin=False, is_staff=False)
+            context = {}
+            context['accs'] = accs
+            result = render_to_string('admin_panel/includes/inc_user_item.html', context)
+            return JsonResponse({'result': result})
+        except Product.DoesNotExist:
+            return HttpResponseNotFound("<h2>Ошибка</h2>")
 
 def cancel_moderate_user(request, pk):
     if is_ajax(request):
-        Account.objects.filter(pk=pk).update(is_moderated=True, is_active = False)
-        return JsonResponse({'result': 'success'})
+        try:
+            Account.objects.filter(pk=pk).update(is_moderated=True, is_active = False)
+            accs = Account.objects.filter(is_moderated=False, is_superuser=False, is_admin=False, is_staff=False)
+            context = {}
+            context['accs'] = accs
+            result = render_to_string('admin_panel/includes/inc_user_item.html', context)
+            return JsonResponse({'result': result})
+        except Product.DoesNotExist:
+            return HttpResponseNotFound("<h2>Ошибка</h2>")

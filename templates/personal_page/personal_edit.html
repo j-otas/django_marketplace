@@ -58,8 +58,13 @@
                     </div>
                 </a>
             </div>
+            <p></p>
+            <a href="#" class="text-danger" onclick="$('#exampleModal').modal('show');">Удалить профиль</a>
 
 
         </form>
+    <div id="modal_window">
+        {% include 'personal_page/includes/modal_delete_profile.html'%}
+    </div>
     </div>
 {% endblock %}

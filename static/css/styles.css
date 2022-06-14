@@ -996,3 +996,7 @@ button, input, optgroup, select, textarea {
     padding-top: 9px;
     padding-bottom: 9px;
 }
+
+.moderate_usr{
+	height: auto !important;
+}

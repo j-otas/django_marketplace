@@ -18,31 +18,14 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
 
-            {% for product in products %}
-            <div id="product_block-{{product.id}}"
-                 class="moderate_product_block d-flex align-items-center news-moderate_wrap">
+
+{#            <div id="favorite_block product_block-{{product.id}}"#}
+{#                 class="moderate_product_block d-flex align-items-center news-moderate_wrap">#}
+{#                {% include 'admin_panel/includes/inc_product_item.html' %}#}
+{#            </div>#}
+            <div class="favorite_products_container">
                 {% include 'admin_panel/includes/inc_product_item.html' %}
-                <div class="product-moderate_btns">
-                    <button onclick="accept_product({{ product.pk }})"
-                            class="accept_product_button btn btn-outline-success"
-                            data-url="{% url 'admin_panel:accept_moderate_product' pk=product.id%}">
-                        OK
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                    </button>
-
-                    <button onclick="cancel_product({{ product.pk }})"
-                            class="cancel_product_button btn btn-outline-danger"
-                            data-url="{% url 'admin_panel:cancel_moderate_product' pk=product.id%}">
-                        X
-                        <i class="fa fa-ban" aria-hidden="true"></i>
-                    </button>
-                </div>
             </div>
-            {% endfor %}
-
-            {% if not products %}
-            <p class="text-center">Нет объявлений для модерации</p>
-            {% endif %}
 
             <!--                <a href="{% url 'admin_panel:moderate_product' %}" class="btn btn-success">Завершить модерирование</a>-->
 

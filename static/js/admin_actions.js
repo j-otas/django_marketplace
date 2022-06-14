@@ -133,10 +133,10 @@ $('.search_user_input').on('keyup', function(){
 
 function accept_product(pk) {
     $.ajax({
-        url: $('.accept_product_button').attr('data-url'),
+        url: $('.accept_product_button-'+pk).attr('data-url'),
 
-        success: function (data) {
-            $('.accept_product_button').parent().parent('#product_block-'+pk).remove()
+        success: function (response) {
+            $('.favorite_products_container').html(response.result);
         },
         failed: function () {
             console.log('ajax FAILED!');
@@ -146,10 +146,10 @@ function accept_product(pk) {
 
 function cancel_product(pk) {
     $.ajax({
-        url: $('.cancel_product_button').attr('data-url'),
+        url: $('.cancel_product_button-'+pk).attr('data-url'),
 
-        success: function (data) {
-            $('.cancel_product_button').parent().parent('#product_block-'+pk).remove()
+        success: function (response) {
+            $('.favorite_products_container').html(response.result);
         },
         failed: function () {
             console.log('ajax FAILED!');
@@ -159,10 +159,10 @@ function cancel_product(pk) {
 
 function accept_user(pk) {
     $.ajax({
-        url: $('.accept_user_button').attr('data-url'),
+        url: $('.accept_user_button-'+pk).attr('data-url'),
 
-        success: function (data) {
-            $('.accept_user_button').parent().parent('#user_block-'+pk).remove()
+        success: function (response) {
+            $('.favorite_products_container').html(response.result);
         },
         failed: function () {
             console.log('ajax FAILED!');
@@ -172,10 +172,10 @@ function accept_user(pk) {
 
 function cancel_user(pk) {
     $.ajax({
-        url: $('.cancel_user_button').attr('data-url'),
+        url: $('.cancel_user_button-'+pk).attr('data-url'),
 
-        success: function (data) {
-            $('.cancel_user_button').parent().parent('#user_block-'+pk).remove()
+        success: function (response) {
+            $('.favorite_products_container').html(response.result);
         },
         failed: function () {
             console.log('ajax FAILED!');

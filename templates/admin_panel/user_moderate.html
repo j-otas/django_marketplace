@@ -21,16 +21,9 @@
 <div class="container content">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            {% for acc in accs %}
-            <div id="user_block-{{acc.id}}"
-                 class="moderate_user_block d-flex align-items-center news-moderate_wrap">
+            <div class="favorite_products_container">
                 {% include 'admin_panel/includes/inc_user_item.html' %}
             </div>
-            {% endfor %}
-
-            {% if not accs %}
-            <p class="text-center">Нет пользователей для модерации</p>
-            {% endif %}
         </div>
     </div>
 </div>

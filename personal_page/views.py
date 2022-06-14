@@ -49,3 +49,13 @@ def personal_edit(request,user_id):
             print("OOOU - ", form.instance.avatar)
         return render(request, 'personal_page/personal_edit.html',
                       {'form': form, })
+
+def delete_profile(request,user_id):
+    if request.method == "GET":
+        if request.user.id == user_id:
+            slctd_usr = Account.objects.get(id = user_id)
+            slctd_usr.is_active = False
+            slctd_usr.save()
+            return HttpResponse("Удаление успешно")
+        else:
+            return HttpResponse("Нельзя удалять чужие аккаунты")

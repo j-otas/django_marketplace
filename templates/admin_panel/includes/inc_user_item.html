@@ -1,17 +1,8 @@
 {% load static %}
-{#<div class="blog-card">#}
-{#    <div class="detail_img pt-0">#}
-{#        <img src={{ acc.avatar.url }}>#}
-{#    </div>#}
-{#    <div class="description">#}
-{#        <h1>Ник:{{ acc.username|linebreaksbr }}</h1>#}
-{#        <h2>Имя-Фамилия: {{ acc.first_name|linebreaksbr }}-{{ acc.last_name|linebreaksbr }}</h2>#}
-{#        <h3>Город:{{ acc.country }}</h3>#}
-{#        <p class="read-more">#}
-{#            <a href="{% url 'personal_page:personal_page' acc.pk %}">Подробнее</a>#}
-{#        </p>#}
-{#    </div>#}
-{#</div>#}
+{% if not accs %}
+            <p class="text-center">Нет пользователей для модерации</p>
+            {% endif %}
+{% for acc in accs %}
 <div class="profile_product_block-{{ product.product.pk }}">
         <div class="product_block_splide fav_product_block_splide">
             <div class="fav_block">
@@ -35,14 +26,14 @@
 
                     <div class="acc-moderate_btns">
                         <button onclick="accept_user({{ acc.pk }})"
-                                class="accept_user_button btn btn-outline-success"
+                                class="accept_user_button-{{ acc.pk }} btn btn-outline-success"
                                 data-url="{% url 'admin_panel:accept_moderate_user' pk=acc.id%}">
                             OK
                             <i class="fa fa-check" aria-hidden="true"></i>
                         </button>
 
                         <button onclick="cancel_user({{ acc.pk }})"
-                            class="cancel_user_button btn btn-outline-danger"
+                            class="cancel_user_button-{{ acc.pk }} btn btn-outline-danger"
                                 data-url="{% url 'admin_panel:cancel_moderate_user' pk=acc.id%}">
                             НЕТ
                             <i class="fa fa-ban" aria-hidden="true"></i>
@@ -51,3 +42,6 @@
 
                 </div>
         </div>
+        </div>
+</div>
+{% endfor %}

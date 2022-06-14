@@ -1,14 +1,55 @@
 {% load static %}
-<div class="blog-card">
-    <div class="detail_img pt-0">
-        <img src={{ product.image.url }}>
-    </div>
-    <div class="description">
-        <h1>{{ product.title|linebreaksbr }}</h1>
-        <h2>Автор:{{ product.author|linebreaksbr }}</h2>
-        <h3>Описание:{{ product.description }}</h3>
-        <p class="read-more">
-            <a href="{% url 'main_marketplace:product_detail' product_id=product.pk %}">Подробнее</a>
-        </p>
-    </div>
+{% if not products %}
+    Нет объявлений для модерации
+{% endif %}
+{% for product in products %}
+<div class="profile_product_block-{{ product.product.pk }}">
+        <div class="product_block_splide fav_product_block_splide moderate_usr">
+            <div class="fav_block ">
+                <a href="{% url 'main_marketplace:product_detail' product_id=product.pk %}">
+                    <div class="fav_product_block_image_block profile_product_block_image_block">
+                        <img src={{ product.image.url }}>
+                    </div>
+                </a>
+                <div class="fav_block_description_block fav_name">
+                    <div class="fav_product_block_cost">
+                        <div class="description_cost">
+                            <h3>{{ product.title }}</h3>
+                        </div>
+                        <div class="description_cost description_city">
+                            <h6>{{ product.city|linebreaksbr }}</h6>
+                        </div>
+                        <div class="description_cost description_city">
+                            <h5>Автор:
+                                <a href="{% url 'personal_page:personal_page' product.author.id %}">{{ product.author.first_name }}</a>
+                            </h5>
+                        </div>
+                        <div class="description_cost description_city" style="
+                        max-height: 150px;
+                        overflow: scroll;
+                        padding-right: 10px;">
+                            <h5>Описание:{{ product.description|linebreaksbr }}</h5>
+                        </div>
+                    </div>
+
+                    <div class="acc-moderate_btns">
+                        <button onclick="accept_product({{ product.pk }})"
+                                class="accept_product_button-{{ product.id }} btn btn-outline-success"
+                                data-url="{% url 'admin_panel:accept_moderate_product' pk=product.id %}">
+                            OK
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </button>
+
+                        <button onclick="cancel_product({{ product.pk }})"
+                            class="cancel_product_button-{{ product.id }} btn btn-outline-danger"
+                                data-url="{% url 'admin_panel:cancel_moderate_product' pk=product.id %}">
+                            НЕТ
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                </div>
 </div>
+        </div>
+</div>
+{% endfor %}

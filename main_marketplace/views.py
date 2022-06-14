@@ -91,7 +91,7 @@ def search_results_list(request):
             context['category'] = SubCategory.objects.get(id=category)
 
         if category == '-1' : #Любая категория
-            product_list = Product.objects.filter(Q(title__icontains=search_text),
+            product_list = Product.objects.filter(Q(title__iregex=search_text),
                                                   city = get_sel_city(request),
                                                   is_active = True)
             context['products'] = product_list
