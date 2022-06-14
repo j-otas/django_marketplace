@@ -9,10 +9,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-content">
-    <a class="list-group-item list-group-item-action bg-success text-dark"
-       href="{% url 'admin_panel:admin_main' %}">Назад</a>
-    <h2 class="zagolovok">Администрирование таблицы БД</h2>
+    <div class="header_controls glavnaya">
+    <a href="{% url 'admin_panel:admin_main' %}">Назад</a>
+</div>
+    <div class="product_title" style="margin-bottom: 15px;">
+    <h2>Администрирование таблицы БД</h2>
 </div>
 
 <h4 class="zagolovok">Таблица: {{ selected_model_name }}</h4>

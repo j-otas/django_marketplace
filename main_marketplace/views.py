@@ -111,12 +111,12 @@ def search_results_list(request):
         else:
             if is_main: #Главная категория
                 product_list = Product.objects.filter(
-                    Q(title__icontains=search_text) & Q(main_category_id = main_category),
+                    Q(title__iregex=search_text) & Q(main_category_id = main_category),
                     city = get_sel_city(request),
                     is_active = True)
             else:
                 product_list = Product.objects.filter(
-                    Q(title__icontains=search_text) & Q(category_id=category),
+                    Q(title__iregex=search_text) & Q(category_id=category),
                     city=get_sel_city(request),
                     is_active=True)
             context['products'] = product_list

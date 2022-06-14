@@ -8,12 +8,15 @@
 {% endblock %}
 
 {% block content %}
-<a class="list-group-item list-group-item-action bg-info text-dark"
-       href="{% url 'admin_panel:admin_main' %}">Назад</a>
+<div class="header_controls glavnaya">
+    <a href="{% url 'admin_panel:admin_main' %}">Назад</a>
+</div>
+<div class="product_title" style="margin-bottom: 15px;">
+    <h2>Модерация объявлений</h2>
+</div>
 <div class="container content">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <h2 class="text-center">Модерация товаров</h2>
 
             {% for product in products %}
             <div id="product_block-{{product.id}}"
@@ -38,7 +41,7 @@
             {% endfor %}
 
             {% if not products %}
-            <p class="text-center">Нет товаров для модерации</p>
+            <p class="text-center">Нет объявлений для модерации</p>
             {% endif %}
 
             <!--                <a href="{% url 'admin_panel:moderate_product' %}" class="btn btn-success">Завершить модерирование</a>-->

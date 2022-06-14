@@ -10,7 +10,7 @@ from account.models import Account
 from main_marketplace.models import Product
 from django.contrib import messages
 from django.http import HttpResponse
-
+from django.db.models import Q
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
@@ -43,7 +43,7 @@ def get_model(num):
     models = []
     for mod in mods:
         if mod._meta.verbose_name[0].isupper():
-            model_names.append(mod._meta.verbose_name)
+            model_names.append(mod._meta.verbose_name_plural)
             models.append(mod)
     return models[num]
 
@@ -65,7 +65,7 @@ def main_admin_panel(request):
     model_names = []
     for mod in mods:
         if mod._meta.verbose_name[0].isupper():
-            model_names.append(mod._meta.verbose_name)
+            model_names.append(mod._meta.verbose_name_plural)
 
     counter = Counter()
 
@@ -110,7 +110,7 @@ def admin_current_table(request, pk):
         result = render_to_string('admin_panel/includes/modal_change_object.html', modal_context)
         return JsonResponse({'result': result})
 
-    context['selected_model_name'] = selected_model._meta.verbose_name
+    context['selected_model_name'] = selected_model._meta.verbose_name_plural
     context['selected_model_objects'] = selected_model_objects
     context['fields'] = selected_model_fields
     context['values_of_fields'] = values_of_fields
@@ -184,7 +184,6 @@ def add_modal_form(request):
 @csrf_exempt
 def accept_add_data(request):
     if request.method == "POST":
-        print("Я работаю")
         context = {}
         selected_model = get_model(int(request.POST.get('tab_id')))  # выбранная пользователем модель(тип данных)
 
@@ -216,7 +215,7 @@ def accept_add_data(request):
 
         values_of_fields = get_values_of_objects(selected_model_objects, selected_model_fields)  # значения объекта
 
-        context['selected_model_name'] = selected_model._meta.verbose_name
+        context['selected_model_name'] = selected_model._meta.verbose
         context['selected_model_objects'] = selected_model_objects
         context['fields'] = selected_model_fields
         context['values_of_fields'] = values_of_fields
@@ -244,7 +243,7 @@ def delete_object(request):
         obj.delete()
         values_of_fields = get_values_of_objects(selected_model_objects, selected_model_fields)  # значения объекта
 
-        context['selected_model_name'] = selected_model._meta.verbose_name
+        context['selected_model_name'] = selected_model._meta.verbose_name_plural
         context['selected_model_objects'] = selected_model_objects
         context['fields'] = selected_model_fields
         context['values_of_fields'] = values_of_fields
@@ -255,6 +254,8 @@ def delete_object(request):
 
 
 def set_users_roles(request):
+    if not request.user.is_admin:
+        return HttpResponse("Нет доступа")
     if request.method == "GET":
         context = {}
         users = Account.objects.all().values()
@@ -292,6 +293,19 @@ def set_users_roles(request):
     else:
         return HttpResponse("Чёто пошло не так")
 
+def search_set_users_roles(request):
+    if is_ajax(request):
+        context = {}
+        search_text = request.POST['search_user_text']
+        usrs = Account.objects.all().values()
+        if search_text:
+            usrs = Account.objects.filter(
+                Q(first_name__iregex=search_text)).values()
+        context['users'] = usrs
+        result = render_to_string('admin_panel/includes/user_tables_roles.html', context)
+        return JsonResponse({'result': result})
+    else:
+        return HttpResponse("Чёто пошло не так")
 class ModerateProductList(ListView):
     model = Product
     template_name = 'admin_panel/product_moderate.html'

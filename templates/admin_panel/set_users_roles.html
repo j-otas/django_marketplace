@@ -9,14 +9,14 @@
     <a href="{% url 'admin_panel:admin_main' %}">Назад</a>
 </div>
 <div class="product_title" style="margin-bottom: 15px;">
-    <h2>Пользователи</h2>
+    <h2>Управление ролями пользователей</h2>
 </div>
     {% csrf_token %}
         <script>
         const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
         </script>
     <div class="search_user_block header_search">
-        <input class = "search_user_input" type="text" name="search_user_text" placeholder="Поиск">
+        <input class = "search_user_input" type="text" name="search_user_text" data-url = "{% url 'admin_panel:search_set_users_roles' %}" placeholder="Поиск по имени...">
         <button class="search_button" type="submit">
             <div class="fas fa-search" aria-hidden="true"></div>
         </button>

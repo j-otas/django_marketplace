@@ -114,7 +114,18 @@ $('body').on('click', '#set_role_btn', function (event) { //Кнопка "Уст
 
 
 $('.search_user_input').on('keyup', function(){
-    //Продолжить отсюда, начать с отправки запроса и выполнения поиска
+    var searchInput = $(event.currentTarget).serialize();
+    $.ajax({
+        type: 'POST',
+        headers: {'X-CSRFToken': csrftoken},
+        url: $(this).attr("data-url"),
+        data: searchInput,
+        dataType: "html",
+
+        success: function (response) {
+            $('.table_block').html(JSON.parse(response)['result']);
+        },
+    });
 });
 
 

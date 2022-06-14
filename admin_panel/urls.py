@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.main_admin_panel, name='admin_main'),
     path('tables/<int:pk>/', views.admin_current_table, name='admin_current_table'),
     path('set-roles/', views.set_users_roles, name='set_users_roles'),
+    path('set-roles/search', views.search_set_users_roles, name='search_set_users_roles'),
 
 
     path('accept_data', views.accept_change_data, name='accept_data'),

@@ -77,8 +77,8 @@ class Product(models.Model):
     #     super(Product, self).delete(*args, **kwargs)
 
     class Meta:
-        verbose_name = 'Продукт(товар)'
-        verbose_name_plural = 'Продукты(товары)'
+        verbose_name = 'Объявление'
+        verbose_name_plural = 'Объявления'
 
 class FavoriteProduct(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
